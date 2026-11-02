@@ -1,469 +1,297 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WaterConversation - Every Drop Matters</title>
-<meta name="description" content="Learn to save water and protect our environment.">
-<meta name="theme-color" content="#e88eae">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#087f8c">
+  <meta name="description" content="WaterConversation — Every Drop Matters. Save water, track your impact and learn every day.">
+  <title>WaterConversation — Every Drop Matters</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap');
+:root{--ink:#17343c;--muted:#71858a;--teal:#087f8c;--teal2:#19a9a5;--mint:#e7f7f4;--cream:#f7faf8;--line:#e8efed;--white:#fff;--coral:#ff987e;--gold:#d8aa60;--shadow:0 12px 34px rgba(22,77,78,.08);--radius:22px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#edf5f3;color:var(--ink);font-family:'DM Sans',sans-serif;-webkit-tap-highlight-color:transparent}.app-shell{max-width:520px;min-height:100vh;margin:auto;background:#f8fbfa;position:relative;padding-bottom:92px;overflow:hidden}.topbar{height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:rgba(255,255,255,.92);position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(230,239,236,.8);backdrop-filter:blur(16px)}.brand{display:flex;gap:10px;align-items:center;text-decoration:none;color:var(--ink)}.brand-mark{width:42px;height:42px;border-radius:15px;background:linear-gradient(145deg,#d8f6f0,#fff);display:grid;place-items:center;font-size:23px;box-shadow:inset 0 0 0 1px #d8eeea}.brand b{display:block;font:800 14px Manrope,sans-serif;letter-spacing:-.3px}.brand small{display:block;color:var(--muted);font-size:10px;margin-top:2px;letter-spacing:.3px}.top-actions{display:flex;align-items:center;gap:10px}.language-wrap{display:flex;align-items:center;gap:4px;background:#f0f7f5;border-radius:12px;padding:7px 9px;color:var(--teal)}.language-wrap select{border:0;background:transparent;color:var(--ink);font-weight:700;font-size:11px;outline:0}.avatar-button{border:0;width:36px;height:36px;border-radius:50%;background:#e6f4f1;font-size:18px;overflow:hidden}main{padding:18px 17px 28px}.page{display:none;animation:fadeUp .28s ease}.page.active{display:block}@keyframes fadeUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}h1,h2,h3,p{margin-top:0}h1{font:800 27px Manrope,sans-serif;letter-spacing:-1px;margin-bottom:7px}h2{font:800 19px Manrope,sans-serif;letter-spacing:-.5px;margin-bottom:7px}h3{font:800 15px Manrope,sans-serif;margin-bottom:6px}.eyebrow{font-size:9px;font-weight:800;letter-spacing:1.45px;color:var(--teal);display:block;margin-bottom:7px}.muted,.page-heading p{color:var(--muted);font-size:12px;line-height:1.6}.hero-card{border-radius:26px;min-height:195px;padding:22px 20px;background:linear-gradient(118deg,#d9f4ed 0%,#eaf7f3 55%,#fbe9dd 100%);position:relative;overflow:hidden;display:flex;align-items:center;margin-bottom:24px}.hero-copy{position:relative;z-index:2;width:66%}.hero-card h1{font-size:25px}.hero-card p{font-size:11px;color:#5f7a7a;line-height:1.5;max-width:210px}.primary-btn,.secondary-btn{border:0;border-radius:13px;padding:12px 16px;font:700 12px 'DM Sans';cursor:pointer;transition:transform .15s,filter .15s}.primary-btn{background:linear-gradient(120deg,var(--teal),#16a79d);color:white;box-shadow:0 7px 15px rgba(8,127,140,.18)}.primary-btn:active,.secondary-btn:active,.quick-card:active{transform:scale(.98)}.primary-btn span{margin-left:8px}.secondary-btn{background:#e9f5f2;color:var(--teal)}.hero-art{position:absolute;right:-5px;bottom:0;width:42%;height:100%;overflow:hidden}.sun{position:absolute;right:23px;top:24px;width:48px;height:48px;background:#ffcf9b;border-radius:50%;opacity:.9}.hill{position:absolute;bottom:-36px;border-radius:50% 50% 0 0}.hill-back{right:-28px;width:190px;height:120px;background:#9dd7c8;transform:rotate(-13deg)}.hill-front{right:35px;bottom:-58px;width:140px;height:125px;background:#55b6a7;transform:rotate(15deg)}.water-drop{position:absolute;right:50px;bottom:27px;font-size:40px;filter:drop-shadow(0 5px 5px #438e8b55)}.section-heading{display:flex;align-items:center;justify-content:space-between;margin:18px 2px 12px}.section-heading h2{margin:0}.live-pill,.guest-pill{font-size:9px;font-weight:700;color:var(--teal);background:#e4f4f0;border-radius:20px;padding:7px 10px}.live-pill i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#29b68b;margin-right:4px}.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.stat-card,.panel,.quick-card,.method-card{background:white;border:1px solid #edf2ef;border-radius:19px;box-shadow:var(--shadow)}.stat-card{padding:15px;min-width:0}.stat-icon{width:32px;height:32px;border-radius:11px;display:grid;place-items:center;font-size:16px;margin-bottom:10px}.aqua{background:#e3f5f1}.peach{background:#fff0e8}.stat-label{display:block;color:var(--muted);font-size:10px}.stat-card strong{font:800 22px Manrope;display:block;margin:3px 0 5px}.stat-card small{font-size:9px;color:#91a09f}.progress-track,.timer-track{height:6px;background:#edf2ef;border-radius:10px;overflow:hidden;margin:9px 0}.progress-track span,.timer-track span{height:100%;width:0;display:block;background:linear-gradient(90deg,#0c9995,#8dd6bd);border-radius:10px;transition:width .3s}.streak-panel{display:flex;align-items:center;padding:14px;margin-top:12px;gap:12px}.streak-icon{font-size:26px;width:44px;height:44px;border-radius:15px;background:#fff2e8;display:grid;place-items:center}.streak-copy{flex:1}.streak-copy h3{font-size:17px;margin:0}.streak-copy p{font-size:10px;color:var(--muted);margin:3px 0 0}.best-streak{text-align:center;border-left:1px solid var(--line);padding-left:14px}.best-streak small{display:block;font-size:8px;color:var(--muted);letter-spacing:1px}.best-streak b{font:800 20px Manrope}.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.quick-card{border:1px solid #edf2ef;text-align:left;padding:14px;display:grid;gap:5px;cursor:pointer}.quick-card>span{font-size:22px}.quick-card b{font-size:12px}.quick-card small{font-size:9px;color:var(--muted)}.panel{padding:17px;margin-top:13px}.panel-title{display:flex;justify-content:space-between;align-items:center}.panel-title h2{margin:0}.panel-emoji{font-size:23px}.usage-entry>p{margin:8px 0 14px}.inline-form{display:grid;grid-template-columns:1fr 1fr;gap:10px}.inline-form label,.form-grid label,.field-label{display:grid;gap:6px;font-size:10px;font-weight:700;color:#5f7477}.inline-form input,.inline-form select,.form-grid input,.field-label input,.field-label select{width:100%;padding:11px 10px;border:1px solid #e4eeea;border-radius:11px;background:#fbfdfc;font:500 12px 'DM Sans';color:var(--ink);outline:none}.inline-form input:focus,.form-grid input:focus,.field-label input:focus{border-color:#78c7ba}.inline-form .full{grid-column:1/-1}.history-head{display:flex;justify-content:space-between;align-items:center;margin:17px 0 8px;font-size:11px}.text-btn{border:0;background:transparent;color:var(--teal);font:700 11px 'DM Sans';padding:5px;cursor:pointer}.history-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-top:1px solid #f0f4f2;font-size:11px}.history-row small{display:block;color:var(--muted);font-size:9px;margin-top:3px}.history-row b{font-size:12px}.empty-state{font-size:11px;color:#91a09f;padding:10px 0}.page-heading{padding:10px 2px 12px}.page-heading p{margin-bottom:4px}.tip-feature,.rain-hero{border-radius:22px;padding:19px;background:linear-gradient(120deg,#e1f4ed,#f7f6e9);display:flex;align-items:center;gap:15px;min-height:150px}.tip-art{font-size:48px;min-width:88px;height:95px;border-radius:20px;background:#d2ece1;display:grid;place-items:center;position:relative}.tip-art span{position:absolute;font-size:20px;right:9px;bottom:10px}.tip-feature h2,.rain-hero h2{font-size:18px}.tip-feature p,.rain-hero p{font-size:11px;line-height:1.55;color:#6e8580;margin:0}.tips-list{display:grid;gap:9px}.tip-row{display:flex;gap:12px;padding:13px;background:#fff;border:1px solid var(--line);border-radius:16px}.tip-row .tip-icon{width:38px;height:38px;border-radius:12px;background:#edf7f1;display:grid;place-items:center;font-size:19px;flex-shrink:0}.tip-row h3{font-size:12px;margin:2px 0 4px}.tip-row p{font-size:10px;line-height:1.5;color:var(--muted);margin:0}.challenge-panel{display:flex;gap:12px;align-items:flex-start;background:#fff9ed}.challenge-icon{font-size:26px}.challenge-panel p{font-size:11px;color:var(--muted);line-height:1.5}.rain-hero{background:linear-gradient(120deg,#dff5f5,#e9f1ff);overflow:hidden}.rain-hero>div:first-child{flex:1}.rain-illustration{font-size:55px;position:relative;padding-right:5px}.rain-illustration span{position:absolute;font-size:25px;right:0;top:0}.rain-illustration i{position:absolute;font-style:normal;font-size:20px;bottom:0;left:0}.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.method-card{padding:12px}.method-visual{height:75px;border-radius:13px;display:grid;place-items:center;font-size:36px;margin-bottom:10px}.roof{background:#e8f5ed}.recharge{background:#eff3df}.barrel{background:#e4f2f6}.method-card h3{font-size:12px}.method-card p{font-size:10px;line-height:1.5;color:var(--muted);margin:0}.method-card:last-child{grid-column:1/-1}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}.form-grid label:last-child:nth-child(odd){grid-column:1/-1}.result-box{background:#eaf7f3;border-radius:14px;padding:13px 15px;margin-top:12px;display:flex;justify-content:space-between;align-items:center;color:#567a75;font-size:11px}.result-box strong{font:800 18px Manrope;color:var(--teal)}.footnote{font-size:9px;line-height:1.5;color:#94a29f;display:block;margin-top:10px}.tab-switcher{display:flex;background:#eaf2ef;border-radius:14px;padding:4px;gap:3px;margin:8px 0 13px}.calc-tab{flex:1;border:0;background:transparent;border-radius:11px;padding:10px 4px;font:700 10px 'DM Sans';color:#71858a}.calc-tab.active{background:white;color:var(--teal);box-shadow:0 2px 8px rgba(20,70,70,.08)}.calc-panel{margin-top:0}.unit-note{font-size:10px;color:var(--muted);text-align:center;padding:13px}.quiz-badge{width:45px;height:45px;background:#e4f4f0;border-radius:15px;display:grid;place-items:center;font-size:23px;margin-bottom:12px}.quiz-record{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px;padding:13px;background:#f5faf8;border-radius:14px}.quiz-record div{text-align:center}.quiz-record small{display:block;color:var(--muted);font-size:8px;letter-spacing:.7px}.quiz-record b{display:block;font:800 18px Manrope;margin-top:4px}.leaderboard{margin-top:16px}.leaderboard h3{font-size:12px}.leader-row{display:flex;justify-content:space-between;padding:9px 0;border-top:1px solid var(--line);font-size:10px}.leader-row b{color:var(--teal)}.quiz-topline,.quiz-meta{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--muted)}.timer-chip{background:#fff0e8;color:#ba704e;border-radius:20px;padding:7px 10px;font-weight:800}.quiz-meta{margin:14px 0 10px;font-weight:700;letter-spacing:.5px}.options-list{display:grid;gap:9px;margin:15px 0}.option-btn{border:1px solid #e4eeea;background:#fbfdfc;border-radius:13px;padding:12px;text-align:left;font:600 11px 'DM Sans';color:var(--ink);cursor:pointer}.option-btn:disabled{cursor:default}.option-btn.correct{background:#e6f6ee;border-color:#79c8a2;color:#26734e}.option-btn.wrong{background:#fff0ec;border-color:#f0a28d;color:#a74f3d}.answer-feedback{padding:12px;background:#f0f8f5;border-radius:12px;font-size:11px;line-height:1.5;margin-bottom:12px}.stop-quiz{display:block;margin:12px auto 0;color:#a47777}.end-emoji{text-align:center;font-size:45px;margin:5px}.score-ring{width:116px;height:116px;border:8px solid #dff2ec;border-top-color:var(--teal);border-radius:50%;margin:18px auto;display:flex;flex-direction:column;align-items:center;justify-content:center}.score-ring strong{font:800 30px Manrope}.score-ring small{font-size:8px;color:var(--muted);letter-spacing:1px}.result-stats{display:grid;grid-template-columns:repeat(3,1fr);text-align:center;margin:15px 0}.result-stats b{display:block;font:800 17px Manrope;color:var(--teal)}.result-stats small{font-size:9px;color:var(--muted)}.profile-card{text-align:center;padding:22px}.profile-avatar-wrap{position:relative;width:86px;margin:0 auto 12px}.profile-avatar{width:86px;height:86px;border-radius:50%;background:#e5f5f1;display:grid;place-items:center;font-size:38px;overflow:hidden;border:4px solid white;box-shadow:0 4px 15px #164d4e18}.profile-avatar img{width:100%;height:100%;object-fit:cover}.avatar-upload{position:absolute;right:-2px;bottom:0;width:27px;height:27px;border-radius:50%;background:var(--teal);color:white;border:2px solid white;display:grid;place-items:center;font-size:17px;cursor:pointer}.profile-records{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.profile-records div{background:#f5faf8;border-radius:12px;padding:11px 5px}.profile-records b{display:block;font:800 15px Manrope}.profile-records small{font-size:8px;color:var(--muted)}.danger-text{color:#c46f6f;margin-top:10px}.sign-in-note{background:#f6faf9}.toast{position:fixed;left:50%;bottom:104px;transform:translate(-50%,12px);opacity:0;pointer-events:none;background:#17343c;color:white;padding:11px 16px;border-radius:13px;font-size:11px;z-index:50;transition:.25s;max-width:90%;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}.full{width:100%}.hidden{display:none!important}
+@media(min-width:600px){body{padding:20px 0}.app-shell{border-radius:28px;min-height:calc(100vh - 40px);box-shadow:0 20px 70px rgba(23,52,60,.12)}.topbar{border-radius:28px 28px 0 0}}
+@media(max-width:360px){.topbar{padding:0 13px}.brand b{font-size:12px}.language-wrap{padding:6px}.language-wrap select{font-size:10px}main{padding-left:13px;padding-right:13px}.nav-item{font-size:8px}}
+  </style>
+</head><body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="WaterConversation home">
+        <div class="brand-mark">💧</div>
+        <div><b>WaterConversation</b><small>EVERY DROP MATTERS</small></div>
+      </a>
+      <div class="top-actions">
+        <label class="language-wrap">🌐
+          <select id="languageSelect" aria-label="Choose language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी</option>
+            <option value="hinglish">Hinglish</option>
+          </select>
+        </label>
+        <button class="avatar-button" id="topAvatar" aria-label="Open profile">💧</button>
+      </div>
+    </header>
 
-<link rel="stylesheet" href="./style.css">
-<link rel="manifest" href="./manifest.webmanifest">
+    <main>
+      <section class="page active" id="page-home">
+        <div class="hero-card">
+          <div class="hero-copy">
+            <span class="eyebrow">A BETTER TOMORROW STARTS TODAY</span>
+            <h1 id="greeting">Good morning!</h1>
+            <p id="welcomeText">Small actions today create a cleaner tomorrow.</p>
+            <button class="primary-btn" data-go="tips">Explore tips <span>→</span></button>
+          </div>
+          <div class="hero-art"><div class="sun"></div><div class="hill hill-back"></div><div class="hill hill-front"></div><div class="water-drop">💧</div></div>
+        </div>
 
-<style>
-/* SOFT PINK DESIGN */
-body {
-  background: linear-gradient(135deg,#fff1f6,#ffe3ed);
-  color: #593b49;
+        <div class="section-heading"><h2>Your water snapshot</h2><span class="live-pill"><i></i> PERSONAL TRACKER</span></div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-icon aqua">💧</div><span class="stat-label">Today's logged use</span><strong id="todayUsage">0 L</strong><small id="todayLabel">TODAY</small></article>
+          <article class="stat-card"><div class="stat-icon peach">🎯</div><span class="stat-label">Daily saving goal</span><strong id="goalProgressText">0%</strong><div class="progress-track"><span id="goalProgressBar"></span></div><small id="goalSub">Set your personal goal</small></article>
+        </div>
+
+        <article class="panel streak-panel">
+          <div class="streak-icon">🔥</div>
+          <div class="streak-copy"><h3><span id="currentStreak">0</span> day streak</h3><p id="streakSub">Log your daily progress to build consistency.</p></div>
+          <div class="best-streak"><small>BEST STREAK</small><b id="bestStreak">0</b></div>
+        </article>
+
+        <div class="section-heading"><h2>Explore your impact</h2></div>
+        <div class="quick-grid">
+          <button class="quick-card" data-go="tips"><span>🌿</span><b>Smart water tips</b><small>Small habits, big impact</small></button>
+          <button class="quick-card" data-go="rain"><span>🌧️</span><b>Rainwater harvesting</b><small>Make every rainfall count</small></button>
+          <button class="quick-card" data-go="calculator"><span>🧮</span><b>Water calculator</b><small>Know your numbers</small></button>
+          <button class="quick-card" data-go="quiz"><span>🧠</span><b>Test your knowledge</b><small>Learn with a quick quiz</small></button>
+        </div>
+
+        <article class="panel usage-entry">
+          <div class="panel-title"><div><span class="eyebrow">DAILY CHECK-IN</span><h2>Log your water use</h2></div><span class="panel-emoji">📝</span></div>
+          <p class="muted">Track an activity to understand your daily water footprint.</p>
+          <form id="usageForm" class="inline-form">
+            <label>Activity
+              <select id="activity" required>
+                <option value="Bath / shower">Bath / shower</option>
+                <option value="Drinking & cooking">Drinking & cooking</option>
+                <option value="Laundry">Laundry</option>
+                <option value="Cleaning & dishes">Cleaning & dishes</option>
+                <option value="Gardening">Gardening</option>
+                <option value="Other">Other</option>
+              </select>
+            </label>
+            <label>Amount (litres)
+              <input type="number" id="usageAmount" min="0.1" max="100000" step="0.1" placeholder="e.g. 25" required>
+            </label>
+            <button class="primary-btn full" type="submit">Save water entry <span>✓</span></button>
+          </form>
+          <div class="history-head"><b>Recent activity</b><button class="text-btn" data-go="profile">View profile</button></div>
+          <div id="usageHistory"><p class="empty-state">No entries yet. Add your first one above.</p></div>
+        </article>
+      </section>
+
+      <section class="page" id="page-tips">
+        <div class="page-heading"><span class="eyebrow">SIMPLE HABITS, REAL CHANGE</span><h1 id="tipsTitle">Water-saving tips</h1><p>Practical ideas you can use at home, school and outdoors.</p></div>
+        <div class="tip-feature"><div class="tip-art">🚰<span>🌱</span></div><div><span class="eyebrow">TODAY'S REMINDER</span><h2>Every drop has a purpose.</h2><p>Use only what you need. Little changes add up over time.</p></div></div>
+        <div class="section-heading"><h2>Try these everyday habits</h2><span class="live-pill">EASY WINS</span></div>
+        <div class="tips-list" id="tipsList"></div>
+        <article class="panel challenge-panel"><div class="challenge-icon">🏅</div><div><span class="eyebrow">DAILY CHALLENGE</span><h2 id="challengeTitle">Today's water challenge</h2><p id="challengeText">Choose one small action and complete it today.</p><button class="secondary-btn" id="completeChallenge">Mark challenge complete ✓</button></div></article>
+      </section>
+
+      <section class="page" id="page-rain">
+        <div class="page-heading"><span class="eyebrow">SAVE THE RAIN FOR A SUNNY DAY</span><h1 id="rainTitle">Rainwater harvesting</h1><p>Collect rain, reduce runoff and support groundwater recharge.</p></div>
+        <div class="rain-hero"><div><span class="eyebrow">A NATURAL RESOURCE</span><h2>Let the rain work twice.</h2><p>Harvesting can provide water for gardening, cleaning and other suitable uses.</p></div><div class="rain-illustration">🌧️<span>☁️</span><i>💧</i></div></div>
+        <div class="section-heading"><h2>Common harvesting methods</h2></div>
+        <div class="method-grid">
+          <article class="method-card"><div class="method-visual roof">🏠</div><h3>Rooftop collection</h3><p>Guide roof runoff through gutters into a covered storage tank.</p></article>
+          <article class="method-card"><div class="method-visual recharge">🌱</div><h3>Recharge pit</h3><p>Direct suitable filtered rainwater into a designed soakaway or recharge structure.</p></article>
+          <article class="method-card"><div class="method-visual barrel">🛢️</div><h3>Rain barrel</h3><p>Collect roof water in a covered barrel for appropriate non-drinking uses.</p></article>
+        </div>
+        <article class="panel">
+          <div class="panel-title"><div><span class="eyebrow">QUICK ESTIMATE</span><h2>Rainwater calculator</h2></div><span class="panel-emoji">🧮</span></div>
+          <p class="muted">Estimate potential collection from your roof.</p>
+          <div class="form-grid"><label>Roof area (m²)<input id="roofArea" type="number" min="1" value="80"></label><label>Rainfall (mm)<input id="rainfall" type="number" min="0" value="50"></label><label>Collection efficiency (%)<input id="efficiency" type="number" min="1" max="100" value="80"></label></div>
+          <button class="primary-btn full" id="calculateRain" type="button">Calculate collection</button><div class="result-box" id="rainResult"><span>Estimated collection</span><strong>— L</strong></div>
+          <small class="footnote" id="rainNote">Estimate only. Actual collection depends on roof, rainfall and system losses. Keep stored water covered and use appropriate filtration.</small>
+        </article>
+      </section>
+
+      <section class="page" id="page-calculator">
+        <div class="page-heading"><span class="eyebrow">KNOW YOUR NUMBERS</span><h1 id="calcTitle">Water calculator</h1><p id="calcIntro">Understand usage and discover saving opportunities.</p></div>
+        <div class="tab-switcher" role="tablist"><button class="calc-tab active" data-calc="usage" id="tabUsage">Daily usage</button><button class="calc-tab" data-calc="saving" id="tabSaving">Water saving</button><button class="calc-tab" data-calc="rain" id="tabRain">Rainwater</button></div>
+        <div class="panel calc-panel" id="calcUsagePanel">
+          <span class="eyebrow">DAILY WATER USAGE</span><h2 id="dailyCalcTitle">Estimate your daily use</h2><p class="muted" id="dailyCalcDesc">Enter the amount used for each activity.</p>
+          <div class="form-grid"><label><span>Bath / shower (L)</span><input type="number" id="bathUse" min="0" value="40"></label><label><span>Drinking & cooking (L)</span><input type="number" id="drinkUse" min="0" value="5"></label><label><span>Laundry (L)</span><input type="number" id="laundryUse" min="0" value="25"></label><label><span>Cleaning & dishes (L)</span><input type="number" id="cleanUse" min="0" value="20"></label><label><span>Other (L)</span><input type="number" id="otherUse" min="0" value="10"></label></div>
+          <button class="primary-btn full" id="calcDailyBtn">Calculate daily use</button><div class="result-box" id="dailyResult"><span>Estimated daily use</span><strong>— L</strong></div>
+        </div>
+        <div class="panel calc-panel hidden" id="calcSavingPanel">
+          <span class="eyebrow">WATER SAVING</span><h2 id="savingCalcTitle">See your saving potential</h2><p class="muted" id="savingCalcDesc">Compare your current use with a reduced target.</p>
+          <div class="form-grid"><label><span>Current use (L/day)</span><input type="number" id="currentUse" min="0" value="120"></label><label><span>Target use (L/day)</span><input type="number" id="targetUse" min="0" value="90"></label></div>
+          <button class="primary-btn full" id="calcSavingBtn">Calculate savings</button><div class="result-box" id="savingResult"><span>Potential saving</span><strong>— L/day</strong></div>
+        </div>
+        <div class="panel calc-panel hidden" id="calcRainPanel">
+          <span class="eyebrow">RAINWATER HARVESTING</span><h2 id="rainCalc2Title">Estimate rain collection</h2><p class="muted">Roof area × rainfall × collection efficiency.</p>
+          <div class="form-grid"><label><span>Roof area (m²)</span><input type="number" id="cRoof" min="1" value="100"></label><label><span>Rainfall (mm)</span><input type="number" id="cRain" min="0" value="100"></label><label><span>Efficiency (%)</span><input type="number" id="cEff" min="1" max="100" value="80"></label></div>
+          <button class="primary-btn full" id="calcRainBtn">Calculate collection</button><div class="result-box" id="calcRainResult"><span>Estimated collection</span><strong>— L</strong></div>
+        </div>
+        <div class="unit-note">💧 <span id="unitNote">Results are shown in litres (L) and millilitres (mL).</span></div>
+      </section>
+
+      <section class="page" id="page-quiz">
+        <div class="page-heading"><span class="eyebrow">TEST YOUR KNOWLEDGE</span><h1 id="quizTitle">Water & nature quiz</h1><p id="quizIntro">Learn something new with every question.</p></div>
+        <div id="quizSetup" class="panel">
+          <div class="quiz-badge">🧠</div><h2 id="readyTitle">Ready for a quiz?</h2><p class="muted" id="readyText">Choose your level. Each question has 10 seconds and four options. Play as long as you like.</p>
+          <label class="field-label"><span id="difficultyLabel">Difficulty</span><select id="difficulty"><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select></label>
+          <button class="primary-btn full" id="startQuiz">Start quiz <span>→</span></button>
+          <div class="quiz-record"><div><small>BEST SCORE</small><b id="bestQuizScore">0</b></div><div><small>ROUNDS PLAYED</small><b id="roundsPlayed">0</b></div><div><small>RANK</small><b id="quizRank">—</b></div></div>
+          <div class="leaderboard"><h3 id="leaderboardTitle">Your leaderboard</h3><div id="leaderboardList" class="empty-state">Complete a round to appear here.</div><small class="footnote">Local leaderboard on this device only.</small></div>
+        </div>
+        <div id="quizPlay" class="panel hidden">
+          <div class="quiz-topline"><span id="questionCount">Question 1</span><span class="timer-chip" id="timerChip">⏱ 10s</span></div>
+          <div class="timer-track"><span id="timerBar"></span></div>
+          <div class="quiz-meta"><span id="quizTopic">WATER CONSERVATION</span><span id="quizScore">Score: 0</span></div>
+          <h2 id="questionText">Question appears here</h2>
+          <div id="optionsList" class="options-list"></div>
+          <div id="answerFeedback" class="answer-feedback hidden"></div>
+          <button class="primary-btn full hidden" id="nextQuestion">Next question →</button>
+          <button class="text-btn stop-quiz" id="stopQuiz">Stop this round</button>
+        </div>
+        <div id="quizEnd" class="panel hidden">
+          <div class="end-emoji">🏆</div><span class="eyebrow">ROUND COMPLETE</span><h2 id="endTitle">Well done!</h2>
+          <div class="score-ring"><strong id="finalScore">0</strong><small>POINTS</small></div>
+          <div class="result-stats"><div><b id="finalAccuracy">0%</b><small>Accuracy</small></div><div><b id="finalCorrect">0/0</b><small>Correct</small></div><div><b id="finalWrong">0</b><small>Wrong / skipped</small></div></div>
+          <p id="performanceReport" class="muted"></p>
+          <button class="primary-btn full" id="playAgain">Play another round</button><button class="secondary-btn full" id="quizHome">Back to quiz home</button>
+        </div>
+      </section>
+
+      <section class="page" id="page-profile">
+        <div class="page-heading"><span class="eyebrow">YOUR SPACE</span><h1 id="profileTitle">My profile</h1><p id="profileIntro">A little progress, every day.</p></div>
+        <div class="panel profile-card">
+          <div class="profile-avatar-wrap"><div id="profileAvatar" class="profile-avatar">💧</div><label class="avatar-upload" for="avatarInput">＋</label><input type="file" accept="image/*" id="avatarInput" hidden></div>
+          <h2 id="profileNameDisplay">Water Saver</h2><p id="profileUsernameDisplay" class="muted">@watersaver</p>
+          <span class="guest-pill">LOCAL PROFILE • GUEST MODE</span>
+        </div>
+        <div class="panel">
+          <div class="panel-title"><div><span class="eyebrow">PERSONAL DETAILS</span><h2 id="editProfileTitle">Edit profile</h2></div><span>✏️</span></div>
+          <label class="field-label"><span id="nameLabel">Name</span><input id="profileName" maxlength="40" placeholder="Your name"></label>
+          <label class="field-label"><span id="usernameLabel">Username</span><input id="profileUsername" maxlength="24" placeholder="username"></label>
+          <button class="primary-btn full" id="saveProfile">Save profile</button>
+        </div>
+        <div class="panel">
+          <div class="panel-title"><div><span class="eyebrow">YOUR DAILY COMMITMENT</span><h2 id="goalSettingsTitle">Water-saving goal</h2></div><span>🎯</span></div>
+          <p class="muted" id="goalSettingsDesc">Set a personal daily water-saving target (litres).</p>
+          <label class="field-label"><span id="goalInputLabel">Daily goal (L)</span><input type="number" min="1" max="100000" id="goalInput" value="20"></label>
+          <button class="primary-btn full" id="saveGoal">Save daily goal</button>
+        </div>
+        <div class="panel">
+          <div class="panel-title"><div><span class="eyebrow">YOUR JOURNEY</span><h2 id="recordsTitle">Your records</h2></div><span>📊</span></div>
+          <div class="profile-records"><div><b id="profileTotalUsage">0 L</b><small>Total logged usage</small></div><div><b id="profileBestStreak">0 days</b><small>Best streak</small></div><div><b id="profileQuizRounds">0</b><small>Quiz rounds</small></div></div>
+          <button class="text-btn danger-text" id="resetData">Reset all app data on this device</button>
+        </div>
+        <div class="panel sign-in-note"><h3>☁️ Google sign-in</h3><p class="muted">This version stores everything on this device. Real Google sign-in and cross-device sync need a secure authentication service and cloud backend, so they are not activated in this local-only build.</p></div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <button class="nav-item active" data-nav="home"><span>⌂</span><small id="navHome">Home</small></button>
+      <button class="nav-item" data-nav="tips"><span>🌿</span><small id="navTips">Tips</small></button>
+      <button class="nav-item" data-nav="rain"><span>🌧️</span><small id="navRain">Rain</small></button>
+      <button class="nav-item" data-nav="calculator"><span>▦</span><small id="navCalc">Calculator</small></button>
+      <button class="nav-item" data-nav="quiz"><span>✦</span><small id="navQuiz">Quiz</small></button>
+      <button class="nav-item" data-nav="profile"><span>♙</span><small id="navProfile">Profile</small></button>
+    </nav>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </div>];
+function renderTips(){
+ const idx=Math.floor(Date.now()/86400000)%tips.length,t=tips[idx],hi=data.language==="hi";
+ $("dailyTipTitle").textContent=hi?t[3]:t[1];$("dailyTipText").textContent=hi?t[4]:t[2];
+ $("tipsList").innerHTML=tips.map((x,i)=>`<article class="tip-row"><div class="tip-icon">${x[0]}</div><div><h3>${data.language==="hi"?x[3]:x[1]}</h3><p>${data.language==="hi"?x[4]:x[2]}</p></div></article>`).join("");
+ const challenges=["Try a 5-minute shower","Turn off the tap while brushing","Water a plant thoughtfully","Check for dripping taps with an adult","Use a bucket for one cleaning task"];
+ const c=challenges[idx];$("challengeTitle").textContent=c;$("challengeText").textContent="Choose this small action today and make it part of your routine.";
+ $("completeChallenge").textContent=data.completedChallenges.includes(localDate())?"Completed ✓":"Mark as complete";
 }
-.logo-icon {
-  display:flex;
-  align-items:center;
-  justify-content:center;
+$("completeChallenge").addEventListener("click",()=>{if(!data.completedChallenges.includes(localDate()))data.completedChallenges.push(localDate());save();renderTips();toast(tr("challenge"));});
+function calcRain(area,rain,eff){return area*rain*eff/100;}
+function showResult(id,label,litres){$(id).innerHTML=`<span>${label}</span><strong>${fmt(litres)} L<br><small style="font-size:10px;font-weight:600">${fmt(litres*1000)} mL</small></strong>`;}
+$("calculateRain").addEventListener("click",()=>{let a=Number($("roofArea").value),r=Number($("rainfall").value),e=Number($("efficiency").value);if(a<=0||r<0||e<=0||e>100||![a,r,e].every(Number.isFinite)){toast("Check your calculator values.");return;}showResult("rainResult","Estimated collection",calcRain(a,r,e));});
+function switchCalc(which){document.querySelectorAll(".calc-tab").forEach(b=>b.classList.toggle("active",b.dataset.calc===which));["usage","saving","rain"].forEach(x=>$("calc"+x[0].toUpperCase()+x.slice(1)+"Panel").classList.toggle("hidden",x!==which));}
+document.querySelectorAll(".calc-tab").forEach(b=>b.addEventListener("click",()=>switchCalc(b.dataset.calc)));
+$("calcDailyBtn").addEventListener("click",()=>{const ids=["bathUse","drinkUse","laundryUse","cleanUse","otherUse"],vals=ids.map(id=>Number($(id).value));if(vals.some(v=>!Number.isFinite(v)||v<0)){toast("Enter valid non-negative amounts.");return;}showResult("dailyResult","Estimated daily use",vals.reduce((a,b)=>a+b,0));});
+$("calcSavingBtn").addEventListener("click",()=>{let c=Number($("currentUse").value),t=Number($("targetUse").value);if(!Number.isFinite(c)||!Number.isFinite(t)||c<0||t<0){toast("Enter valid amounts.");return;}const save=Math.max(0,c-t);$("savingResult").innerHTML=`<span>Potential saving<br><small>${save===0?"Your target is not below current use.":`About ${fmt(save*30)} L over 30 days`}</small></span><strong>${fmt(save)} L/day<br><small style="font-size:10px">${fmt(save*1000)} mL/day</small></strong>`;});
+$("calcRainBtn").addEventListener("click",()=>{let a=Number($("cRoof").value),r=Number($("cRain").value),e=Number($("cEff").value);if(a<=0||r<0||e<=0||e>100||![a,r,e].every(Number.isFinite)){toast("Check your calculator values.");return;}showResult("calcRainResult","Estimated collection",calcRain(a,r,e));});
+/* Quiz bank: each question has four choices and a short explanation. */
+const bank=[
+{d:"easy",topic:"Water",q:"Which action saves water while brushing your teeth?",o:["Keep the tap running","Turn the tap off","Use hot water only","Fill the sink"],a:1,x:"Turning off the tap when it is not needed avoids wasting running water."},
+{d:"easy",topic:"Nature",q:"Which part of a plant absorbs most water from soil?",o:["Roots","Flowers","Fruits","Petals"],a:0,x:"Roots absorb water and minerals from the soil."},
+{d:"easy",topic:"Water",q:"What is rainwater harvesting?",o:["Making rain","Collecting and storing rainwater","Heating river water","Cleaning clouds"],a:1,x:"Rainwater harvesting collects rain for later use or groundwater recharge."},
+{d:"easy",topic:"Environment",q:"Which is a good way to reduce plastic pollution in rivers?",o:["Throw wrappers away","Use single-use bags more","Use reusable bags","Wash plastic into drains"],a:2,x:"Reusable bags reduce the amount of single-use plastic waste."},
+{d:"easy",topic:"Water",q:"Which water source is naturally replenished by rainfall?",o:["Groundwater","Petrol","Coal","Metal"],a:0,x:"Rain can seep into the ground and replenish groundwater over time."},
+{d:"medium",topic:"Water",q:"What is the main purpose of a first-flush system in rooftop harvesting?",o:["Add colour","Divert the first roof runoff","Heat stored water","Increase rainfall"],a:1,x:"It diverts the initial runoff, which may carry dust and debris from the roof."},
+{d:"medium",topic:"Environment",q:"What does biodiversity mean?",o:["Only large forests","Variety of life","One type of crop","Amount of rainfall"],a:1,x:"Biodiversity is the variety of living organisms in an area or on Earth."},
+{d:"medium",topic:"Water",q:"Which surface usually allows more rainwater to soak into the ground?",o:["Concrete","Asphalt","Grass-covered soil","Plastic sheet"],a:2,x:"Permeable soil and vegetation help rainwater infiltrate into the ground."},
+{d:"medium",topic:"Nature",q:"Which process moves water from plant leaves into the air?",o:["Condensation","Transpiration","Freezing","Filtration"],a:1,x:"Transpiration is the release of water vapour from plant leaves."},
+{d:"medium",topic:"Water",q:"A roof is 50 m² and rainfall is 20 mm. Before losses, how much water falls on it?",o:["100 L","500 L","1,000 L","10,000 L"],a:2,x:"1 mm of rain on 1 m² is 1 litre, so 50 × 20 = 1,000 litres."},
+{d:"hard",topic:"Water",q:"Which formula estimates harvested rainwater volume in litres before losses?",o:["Area ÷ rainfall","Area × rainfall in mm","Rainfall + area","Area × temperature"],a:1,x:"One millimetre of rainfall over one square metre equals approximately one litre."},
+{d:"hard",topic:"Environment",q:"What is a watershed?",o:["A water bottle","Land draining to a common outlet","A water filter brand","A type of cloud"],a:1,x:"A watershed is the land area that drains water to a shared stream, river or outlet."},
+{d:"hard",topic:"Nature",q:"What is the name of water changing from liquid to vapour?",o:["Condensation","Precipitation","Evaporation","Infiltration"],a:2,x:"Evaporation changes liquid water into water vapour."},
+{d:"hard",topic:"Water",q:"Why should a rainwater storage tank be covered?",o:["To make it heavier","To reduce contamination and mosquito breeding","To change its colour","To stop all evaporation forever"],a:1,x:"A well-fitted cover helps keep debris and mosquitoes out."},
+{d:"hard",topic:"Environment",q:"Which action best supports groundwater recharge?",o:["Cover every open area with concrete","Keep suitable permeable areas and recharge structures","Send rainwater directly to roads","Remove all vegetation"],a:1,x:"Permeable surfaces and well-designed recharge structures can help water soak into the ground."}
+];
+let quiz={active:false,index:0,score:0,correct:0,wrong:0,seconds:10,question:null,answered:false,questions:[],timer:null,seen:[]};
+function renderQuizStats(){
+ const scores=data.quizScores.slice().sort((a,b)=>b.score-a.score);$("bestQuizScore").textContent=scores[0]?.score||0;$("roundsPlayed").textContent=data.quizRounds;$("quizRank").textContent=scores.length?"#1":"—";
+ $("leaderboardList").innerHTML=scores.slice(0,5).map((s,i)=>`<div class="leader-row"><span>${i+1}. ${escapeHtml(s.name||"Guest")}</span><b>${s.score} pts · ${s.accuracy}%</b></div>`).join("")||"Complete a round to appear here.";
 }
-.logo-icon svg { width:42px;height:42px; }
-.visual-banner {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:18px;
-  margin:15px 0;
-  border-radius:22px;
-  background:linear-gradient(135deg,#ffe0eb,#fff8fb);
-  border:1px solid #f4cbd9;
+function startQuiz(){
+ clearInterval(quiz.timer);quiz={active:true,index:0,score:0,correct:0,wrong:0,seconds:10,question:null,answered:false,questions:[],timer:null,seen:[]};
+ $("quizSetup").classList.add("hidden");$("quizEnd").classList.add("hidden");$("quizPlay").classList.remove("hidden");
+ nextQ();
 }
-.visual-banner p { max-width:230px; }
-.visual-art { width:120px;max-width:40%; }
-.pink-heading { color:#c85d86; }
-.card,.stat-card {
-  border-color:#f4d5e1;
+function nextQ(){
+ if(!quiz.active)return;clearInterval(quiz.timer);
+ const level=$("difficulty").value;let pool=bank.filter(q=>q.d===level);
+ if(!pool.length)pool=bank;
+ if(quiz.seen.length>=pool.length)quiz.seen=[];
+ const available=pool.filter(q=>!quiz.seen.includes(q.q));const q=available[Math.floor(Math.random()*available.length)];
+ quiz.seen.push(q.q);quiz.question=q;quiz.answered=false;quiz.seconds=10;quiz.index++;
+ $("questionCount").textContent=`Question ${quiz.index}`;$("quizTopic").textContent=q.topic.toUpperCase();$("quizScore").textContent=`Score: ${quiz.score}`;$("questionText").textContent=q.q;
+ $("answerFeedback").classList.add("hidden");$("nextQuestion").classList.add("hidden");
+ $("optionsList").innerHTML=q.o.map((v,i)=>`<button class="option-btn" data-option="${i}">${String.fromCharCode(65+i)}. ${escapeHtml(v)}</button>`).join("");
+ $("optionsList").querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>answer(Number(b.dataset.option),false)));
+ updateTimer();quiz.timer=setInterval(()=>{quiz.seconds--;updateTimer();if(quiz.seconds<=0){clearInterval(quiz.timer);if(!quiz.answered)answer(-1,true);}},1000);
 }
-.section-image {
-  width:100%;
-  border-radius:18px;
-  display:block;
-  margin:12px 0;
+function updateTimer(){$("timerChip").textContent=`⏱ ${quiz.seconds}s`;$("timerBar").style.width=(quiz.seconds/10*100)+"%";$("timerBar").style.background=quiz.seconds<=3?"#e88972":"linear-gradient(90deg,#0c9995,#8dd6bd)";}
+function answer(choice,timedOut){
+ if(quiz.answered)return;quiz.answered=true;clearInterval(quiz.timer);const q=quiz.question,correct=choice===q.a;
+ if(correct){quiz.correct++;quiz.score+=10+quiz.seconds;}else quiz.wrong++;
+ $("optionsList").querySelectorAll("button").forEach((b,i)=>{b.disabled=true;if(i===q.a)b.classList.add("correct");else if(i===choice)b.classList.add("wrong");});
+ $("answerFeedback").classList.remove("hidden");$("answerFeedback").innerHTML=`<b>${correct?"✓ Correct!":timedOut?"Time's up!":"Not quite."}</b> ${escapeHtml(q.x)}`;
+ $("quizScore").textContent=`Score: ${quiz.score}`;$("nextQuestion").classList.remove("hidden");$("nextQuestion").textContent="Next question →";
 }
-.rain-illustration {
-  display:flex;
-  justify-content:center;
-  padding:10px;
+function endQuiz(){
+ clearInterval(quiz.timer);quiz.active=false;const total=quiz.correct+quiz.wrong,accuracy=total?Math.round(quiz.correct/total*100):0;
+ data.quizRounds++;data.quizScores.push({score:quiz.score,accuracy,correct:quiz.correct,total,date:localDate(),name:data.name});data.quizScores=data.quizScores.slice(-30);save();
+ $("quizPlay").classList.add("hidden");$("quizEnd").classList.remove("hidden");$("finalScore").textContent=quiz.score;$("finalAccuracy").textContent=accuracy+"%";$("finalCorrect").textContent=`${quiz.correct}/${total}`;$("finalWrong").textContent=quiz.wrong;
+ $("performanceReport").textContent=accuracy>=80?"Excellent work! You have a strong understanding of these topics.":accuracy>=50?"Good effort! Review the explanations and keep learning.":"Every round is a chance to learn. Try again and build your knowledge.";
+ $("endTitle").textContent=total?"Great effort!":"Round stopped";renderQuizStats();
 }
-.rain-illustration svg {
-  width:100%;
-  max-width:320px;
+$("startQuiz").addEventListener("click",startQuiz);$("nextQuestion").addEventListener("click",nextQ);$("stopQuiz").addEventListener("click",()=>{if(quiz.active)endQuiz();});$("playAgain").addEventListener("click",startQuiz);$("quizHome").addEventListener("click",()=>{$("quizEnd").classList.add("hidden");$("quizSetup").classList.remove("hidden");});
+function updateStreak(){
+ const todayStr=localDate(),yesterday=localDate(new Date(Date.now()-86400000));
+ if(data.lastGoalDate===todayStr)return;
+ if(data.lastGoalDate===yesterday)data.streak++;else data.streak=1;
+ data.lastGoalDate=todayStr;data.bestStreak=Math.max(data.bestStreak,data.streak);
 }
-</style>
-</head>
-
-<body>
-<div class="app">
-
-<!-- HEADER -->
-<header class="header">
-  <div class="logo">
-    <div class="logo-icon">
-      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-        <path d="M32 4C25 17 12 29 12 41c0 12 9 19 20 19s20-7 20-19C52 29 39 17 32 4Z"
-        fill="#e88eae"/>
-        <path d="M22 41c0-7 5-14 9-20"
-        fill="none" stroke="white" stroke-width="4"
-        stroke-linecap="round"/>
-        <circle cx="43" cy="46" r="3" fill="white"/>
-      </svg>
-    </div>
-    <span>WaterConversation</span>
-  </div>
-
-  <select id="languageSelect" class="language-select">
-    <option value="en">English</option>
-    <option value="hi">हिंदी</option>
-    <option value="hinglish">Hinglish</option>
-  </select>
-</header>
-
-<main>
-
-<!-- HOME -->
-<section id="homeSection" class="section active">
-
-  <div class="welcome">
-    <h1 id="greeting">Good Morning!</h1>
-    <p>Welcome to your water-saving journey.</p>
-    <p class="tagline">Every Drop Matters. 💧</p>
-  </div>
-
-  <div class="visual-banner">
-    <div>
-      <h2 class="pink-heading">Save Water, Save Life</h2>
-      <p>Small drops create a beautiful future!</p>
-    </div>
-    <svg class="visual-art" viewBox="0 0 160 150">
-      <circle cx="80" cy="78" r="65" fill="#ffd4e3"/>
-      <path d="M80 20C65 45 42 67 42 91a38 38 0 0 0 76 0c0-24-23-46-38-71Z"
-      fill="#e88eae"/>
-      <path d="M60 88c0-13 10-27 18-38"
-      stroke="white" stroke-width="7" fill="none"
-      stroke-linecap="round"/>
-    </svg>
-  </div>
-
-  <div class="card-grid">
-    <div class="stat-card">
-      <div class="icon">💧</div>
-      <h3 id="todayUsage">0 L</h3>
-      <p>Today's Water Usage</p>
-    </div>
-    <div class="stat-card">
-      <div class="icon">🎯</div>
-      <h3 id="goalValue">100 L</h3>
-      <p>Daily Saving Goal</p>
-    </div>
-    <div class="stat-card">
-      <div class="icon">🔥</div>
-      <h3 id="streakValue">0</h3>
-      <p>Current Streak</p>
-    </div>
-    <div class="stat-card">
-      <div class="icon">🏆</div>
-      <h3 id="bestStreak">0</h3>
-      <p>Best Streak</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>💗 Water Saving Progress</h2>
-    <div class="progress-container">
-      <div id="progressBar" class="progress-bar"></div>
-    </div>
-    <p id="progressText">0% completed</p>
-  </div>
-
-  <div class="card">
-    <h2>💧 Add Daily Water Usage</h2>
-    <form id="usageForm">
-      <div class="form-group">
-        <label for="usageAmount">Water Usage (Litres)</label>
-        <input type="number" id="usageAmount"
-        placeholder="Enter water usage" min="0.01"
-        step="0.01" required>
-      </div>
-      <button type="submit" class="btn">Save Water Usage</button>
-    </form>
-  </div>
-
-  <div class="card">
-    <h2>🎯 Set Daily Goal</h2>
-    <form id="goalForm">
-      <div class="form-group">
-        <label for="goalInput">Daily Goal (Litres)</label>
-        <input type="number" id="goalInput"
-        min="1" placeholder="Example: 100" required>
-      </div>
-      <button type="submit" class="btn">Update Goal</button>
-    </form>
-  </div>
-
-  <div class="card">
-    <h2>📊 Water Usage History</h2>
-    <div id="usageHistory">
-      <p class="empty-state">Your usage history will appear here.</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>🌱 Start Saving Water Today</h2>
-    <p>Small steps can make a big difference. Save water and protect nature.</p>
-    <button class="btn" onclick="showSection('tips')">
-      Explore Water Saving Tips
-    </button>
-  </div>
-</section>
-
-<!-- TIPS -->
-<section id="tipsSection" class="section">
-
-  <div class="welcome">
-    <h1>🌱 Water Saving Tips</h1>
-    <p>Small habits, big changes.</p>
-  </div>
-
-  <div class="visual-banner">
-    <div>
-      <h2 class="pink-heading">Love Nature 🌿</h2>
-      <p>Save water today for a greener tomorrow.</p>
-    </div>
-    <svg class="visual-art" viewBox="0 0 160 150">
-      <circle cx="80" cy="75" r="65" fill="#ffe0eb"/>
-      <path d="M80 120V55" stroke="#78ad82"
-      stroke-width="7" stroke-linecap="round"/>
-      <path d="M80 82C38 82 39 42 70 48
-      C89 52 89 68 80 82Z" fill="#83bd91"/>
-      <path d="M80 70C84 35 125 35 125 59
-      C125 78 99 83 80 70Z" fill="#a4d1a0"/>
-      <path d="M43 120h75l-9 17H52Z" fill="#d88ca9"/>
-    </svg>
-  </div>
-
-  <div class="card">
-    <h2>Today's Water Saving Challenge</h2>
-    <p>Try one new water-saving habit today.</p>
-    <button class="btn"
-    onclick="completeChallenge('Daily water saving challenge')">
-      Complete Today's Challenge
-    </button>
-  </div>
-
-  <div id="tipsContainer">
-    <p class="empty-state">Loading water-saving tips...</p>
-  </div>
-</section>
-
-<!-- RAIN -->
-<section id="rainSection" class="section">
-
-  <div class="welcome">
-    <h1>🌧️ Rainwater Harvesting</h1>
-    <p>Collect rainwater. Save our future.</p>
-  </div>
-
-  <div class="rain-hero">
-    <div class="rain-illustration">
-      <svg viewBox="0 0 320 180">
-        <circle cx="260" cy="35" r="24" fill="#ffd1e1"/>
-        <path d="M48 88 155 20l107 68"
-        fill="none" stroke="#b96e8d" stroke-width="12"
-        stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M72 82v78h166V82"
-        fill="#fff8fb" stroke="#d88ca9" stroke-width="5"/>
-        <rect x="135" y="108" width="42" height="52"
-        rx="5" fill="#f3bfd1"/>
-        <path d="M105 4l-8 20m58-20-8 20m58-20-8 20"
-        stroke="#83b9d2" stroke-width="6"
-        stroke-linecap="round"/>
-        <path d="M24 170q30-15 60 0t60 0t60 0t60 0"
-        fill="none" stroke="#86bfd0" stroke-width="6"/>
-      </svg>
-    </div>
-
-    <h2>What is Rainwater Harvesting?</h2>
-    <p>Rainwater harvesting is the process of collecting and storing rainwater for future use.</p>
-  </div>
-
-  <div class="card">
-    <h2>🏠 How Does It Work?</h2>
-    <p>1. Rain falls on the rooftop.</p>
-    <p>2. Pipes carry the rainwater.</p>
-    <p>3. A filter removes dirt and debris.</p>
-    <p>4. Water is collected in a storage tank.</p>
-    <p>5. Stored water can be used for suitable non-drinking purposes.</p>
-  </div>
-
-  <div class="card">
-    <h2>🌿 Benefits</h2>
-    <p>💧 Helps conserve water.</p>
-    <p>🌱 Supports gardening.</p>
-    <p>🏡 Can reduce dependence on other water sources.</p>
-    <p>🌍 Helps protect the environment.</p>
-  </div>
-
-  <div class="card">
-    <h2>🧮 Rainwater Harvesting Calculator</h2>
-    <form id="rainForm">
-      <div class="form-group">
-        <label for="roofArea">Roof Area (Square Metres)</label>
-        <input type="number" id="roofArea"
-        min="0.01" step="0.01" placeholder="Example: 100" required>
-      </div>
-      <div class="form-group">
-        <label for="rainfall">Rainfall (Millimetres)</label>
-        <input type="number" id="rainfall"
-        min="0" step="0.01" placeholder="Example: 50" required>
-      </div>
-      <div class="form-group">
-        <label for="efficiency">Collection Efficiency (%)</label>
-        <input type="number" id="efficiency"
-        min="0" max="100" value="80" required>
-      </div>
-      <button type="submit" class="btn">Calculate Rainwater</button>
-    </form>
-    <div id="rainResult"></div>
-  </div>
-</section>
-
-<!-- CALCULATOR -->
-<section id="calculatorSection" class="section">
-
-  <div class="welcome">
-    <h1>🧮 Water Calculator</h1>
-    <p>Calculate your water usage and savings.</p>
-  </div>
-
-  <div class="card">
-    <h2>💧 Daily Water Usage Calculator</h2>
-    <form id="dailyCalcForm">
-      <div class="form-group">
-        <label for="showerUsage">Bathing / Shower (Litres)</label>
-        <input type="number" id="showerUsage" min="0" value="0" required>
-      </div>
-      <div class="form-group">
-        <label for="drinkingUsage">Drinking (Litres)</label>
-        <input type="number" id="drinkingUsage" min="0" value="0" required>
-      </div>
-      <div class="form-group">
-        <label for="cleaningUsage">Cleaning (Litres)</label>
-        <input type="number" id="cleaningUsage" min="0" value="0" required>
-      </div>
-      <div class="form-group">
-        <label for="otherUsage">Other Uses (Litres)</label>
-        <input type="number" id="otherUsage" min="0" value="0" required>
-      </div>
-      <button type="submit" class="btn">Calculate Daily Usage</button>
-    </form>
-    <div id="dailyCalcResult"></div>
-  </div>
-
-  <div class="card">
-    <h2>🌱 Water Saving Calculator</h2>
-    <form id="savingForm">
-      <div class="form-group">
-        <label for="currentUsage">Current Water Usage (Litres)</label>
-        <input type="number" id="currentUsage" min="0"
-        step="0.01" placeholder="Enter current usage" required>
-      </div>
-      <div class="form-group">
-        <label for="savedUsage">Water Saved (Litres)</label>
-        <input type="number" id="savedUsage" min="0"
-        step="0.01" placeholder="Enter saved water" required>
-      </div>
-      <button type="submit" class="btn">Calculate Water Saving</button>
-    </form>
-    <div id="savingResult"></div>
-  </div>
-</section>
-
-<!-- QUIZ -->
-<section id="quizSection" class="section">
-
-  <div class="welcome">
-    <h1>🏆 Water Conservation Quiz</h1>
-    <p>Test your knowledge and learn something new!</p>
-  </div>
-
-  <div class="card">
-    <h2>Select Difficulty</h2>
-    <p>Choose your quiz level.</p>
-    <button class="btn" data-quiz-level="easy">🟢 Easy Level</button>
-    <button class="btn" data-quiz-level="medium">🟡 Medium Level</button>
-    <button class="btn" data-quiz-level="hard">🔴 Hard Level</button>
-  </div>
-
-  <div id="quizArea" style="display:none;">
-    <div class="card">
-      <div class="quiz-timer">⏱️ <span id="quizTimer">10</span> sec</div>
-      <p id="quizProgress">Question 1</p>
-      <div id="quizQuestion" class="quiz-question">Your question will appear here.</div>
-      <div id="quizOptions"></div>
-      <div id="quizFeedback"></div>
-      <button id="nextQuestion" class="btn" style="display:none;">Next Question</button>
-      <button id="stopQuiz" class="btn btn-secondary">Stop Quiz</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>🏅 My High Scores</h2>
-    <div id="scoreHistory">
-      <p class="empty-state">Your quiz scores will appear here.</p>
-    </div>
-  </div>
-</section>
-
-<!-- PROFILE -->
-<section id="profileSection" class="section">
-
-  <div class="welcome">
-    <h1>👤 My Profile</h1>
-    <p>Your personal water-saving space.</p>
-  </div>
-
-  <div class="card">
-    <div class="profile-info">
-      <div id="profileAvatar" class="profile-avatar">💧</div>
-      <h2 id="profileName">Water Saver</h2>
-      <p id="profileUsername">@watersaver</p>
-    </div>
-
-    <div class="form-group">
-      <label for="photoInput">Choose Profile Photo</label>
-      <input type="file" id="photoInput" accept="image/*">
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>✏️ Edit Profile</h2>
-    <form id="profileForm">
-      <div class="form-group">
-        <label for="nameInput">Your Name</label>
-        <input type="text" id="nameInput" placeholder="Enter your name" required>
-      </div>
-      <div class="form-group">
-        <label for="usernameInput">Username</label>
-        <input type="text" id="usernameInput" placeholder="Enter username" required>
-      </div>
-      <button type="submit" class="btn">Save Profile</button>
-    </form>
-  </div>
-
-  <div class="card">
-    <h2>🎯 My Daily Goal</h2>
-    <p>Set your daily water-saving target from the Home section.</p>
-    <button class="btn btn-secondary" onclick="showSection('home')">Go to Home</button>
-  </div>
-
-  <div class="card">
-    <h2>🏆 My Quiz Records</h2>
-    <div id="scoreHistory"></div>
-  </div>
-
-  <div class="card">
-    <h2>⚙️ App Data</h2>
-    <p>Your information is saved locally in this browser.</p>
-    <button id="resetButton" class="btn btn-danger">Reset App Data</button>
-  </div>
-
-  <div class="card">
-    <h2>💧 WaterConversation</h2>
-    <p>Every Drop Matters.</p>
-    <p>Thank you for helping protect our planet.</p>
-  </div>
-</section>
-</main>
-
-<!-- BOTTOM NAVIGATION -->
-<nav class="bottom-nav">
-  <button class="nav-item active" data-section="home">
-    <span class="nav-icon">🏠</span><span>Home</span>
-  </button>
-  <button class="nav-item" data-section="tips">
-    <span class="nav-icon">🌱</span><span>Tips</span>
-  </button>
-  <button class="nav-item" data-section="rain">
-    <span class="nav-icon">🌧️</span><span>Rain</span>
-  </button>
-  <button class="nav-item" data-section="calculator">
-    <span class="nav-icon">🧮</span><span>Calculate</span>
-  </button>
-  <button class="nav-item" data-section="quiz">
-    <span class="nav-icon">🏆</span><span>Quiz</span>
-  </button>
-  <button class="nav-item" data-section="profile">
-    <span class="nav-icon">👤</span><span>Profile</span>
-  </button>
-</nav>
-
-</div>
-
-<script src="./app.js"></script>
+function maybeGoalReward(){
+ const total=todayUsage();if(data.goal>0&&total>=data.goal&&data.lastGoalDate!==localDate()){updateStreak();save();toast(tr("goalDone"));}
+}
+function init(){
+ applyLanguage();renderTips();renderHome();renderProfile();renderQuizStats();
+ $("todayLabel").textContent=new Date().toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"}).toUpperCase();
+ $("usageForm").addEventListener("submit",maybeGoalReward);
+ if("serviceWorker" in navigator && location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
+}
+init();
+})();
+  </script>
 </body>
-  </html>
+</html>
