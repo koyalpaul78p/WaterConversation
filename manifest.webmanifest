@@ -1,0 +1,11 @@
+{
+  "name": "WaterConversation",
+  "short_name": "WaterConversation",
+  "description": "Every Drop Matters.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4fbf8",
+  "theme_color": "#5b9b86",
+  "orientation": "portrait",
+  "lang": "en"
+}
