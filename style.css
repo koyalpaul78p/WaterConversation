@@ -482,3 +482,111 @@ main {
     font-size: 17px;
   }
 }
+/* ===== SOFT PINK THEME ===== */
+
+:root {
+  --primary: #e88eae;
+  --primary-dark: #d66f96;
+  --secondary: #f7c6d8;
+  --background: #fff4f8;
+  --surface: #ffffff;
+  --text: #593b49;
+  --muted: #997887;
+  --border: #f4d5e1;
+}
+
+body {
+  background: linear-gradient(135deg, #fff1f6, #ffe3ed);
+  color: var(--text);
+}
+
+.app {
+  background: transparent;
+}
+
+.header {
+  background: #fff8fb;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  color: #d66f96;
+}
+
+.welcome {
+  background: linear-gradient(135deg, #e98eaf, #f5b9ce);
+  color: white;
+  border-radius: 25px;
+}
+
+.card,
+.stat-card,
+.section {
+  background: #ffffff;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  box-shadow: 0 5px 18px rgba(220, 125, 160, 0.10);
+}
+
+.btn {
+  background: linear-gradient(135deg, #e88eae, #d66f96);
+  color: white;
+  border: none;
+  border-radius: 14px;
+}
+
+.btn:hover {
+  background: #cf638d;
+}
+
+.progress-container {
+  background: #fbe1eb;
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, #f3a9c3, #d66f96);
+}
+
+input,
+select,
+textarea {
+  background: #fff8fb;
+  color: #593b49;
+  border: 1px solid #f0c6d7;
+  border-radius: 12px;
+}
+
+.bottom-nav {
+  background: #fff8fb;
+  border-top: 1px solid #f4d5e1;
+}
+
+.nav-item {
+  color: #a98292;
+}
+
+.nav-item.active {
+  color: #d66f96;
+}
+
+.tip-card {
+  background: #fff0f5;
+  border: 1px solid #f4d5e1;
+}
+
+.rain-hero {
+  background: linear-gradient(135deg, #f8c7da, #e99bb9);
+  color: #593b49;
+}
+
+.quiz-option {
+  background: #fff4f8;
+  border: 1px solid #efc5d6;
+  color: #593b49;
+}
+
+.profile-avatar {
+  background: #f8d3e1;
+  color: #c85d86;
+}
