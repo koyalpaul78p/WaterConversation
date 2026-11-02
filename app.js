@@ -1,44 +1,40 @@
-/* WATERCONVERSATION
-   Every Drop Matters 💧
-*/
+"use strict";
 
-const $ = (id) => document.getElementById(id);
+/* =====================================
+   WATERCONVERSATION - APP.JS
+   Every Drop Matters.
+   ===================================== */
 
-const today = () => new Date().toISOString().slice(0, 10);
+const STORAGE_KEY = "waterconversation-data-v2";
 
 const defaultData = {
+  language: "en",
   name: "Water Saver",
-  username: "watersaver",
+  username: "@watersaver",
   photo: "",
-  goal: 100,
-  usage: [],
-  scores: [],
-  challenges: [],
-  streak: 0,
-  bestStreak: 0,
+  dailyGoal: 100,
+  usageHistory: [],
+  quizHistory: [],
   lastGoalDate: "",
-  language: "en"
+  streak: 0,
+  bestStreak: 0
 };
 
 let data = loadData();
-
-let quizQuestions = [];
-let quizIndex = 0;
-let quizScore = 0;
-let quizCorrect = 0;
-let quizAnswered = false;
-let quizTimer = null;
-let timeLeft = 10;
-let currentLevel = "easy";
-
-/* SAVE AND LOAD */
+let quizState = {
+  questions: [],
+  current: 0,
+  score: 0,
+  answers: [],
+  timeLeft: 10,
+  timer: null,
+  level: "easy",
+  finished: false
+};
 
 function loadData() {
   try {
-    const saved = JSON.parse(
-      localStorage.getItem("waterConversation")
-    );
-
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
     return { ...defaultData, ...(saved || {}) };
   } catch {
     return { ...defaultData };
@@ -46,1054 +42,1053 @@ function loadData() {
 }
 
 function saveData() {
-  localStorage.setItem(
-    "waterConversation",
-    JSON.stringify(data)
-  );
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
-/* LANGUAGE */
+function todayKey() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function yesterdayKey() {
+  const date = new Date();
+  date.setDate(date.getDate() - 1);
+  return date.toISOString().slice(0, 10);
+}
+
+function $(id) {
+  return document.getElementById(id);
+}
+
+function safeText(id, value) {
+  const el = $(id);
+  if (el) el.textContent = value;
+}
+
+function formatNumber(value) {
+  return Number(value || 0).toLocaleString();
+}
+
+/* =====================================
+   LANGUAGE
+   ===================================== */
 
 const translations = {
   en: {
-    home: "Home",
-    tips: "Tips",
-    rain: "Rain",
-    calculator: "Calculator",
-    quiz: "Quiz",
-    profile: "My Profile",
-    welcome: "Welcome",
-    usage: "Daily Water Usage",
-    goal: "Daily Saving Goal",
-    history: "Usage History"
+    "Home": "Home",
+    "Tips": "Tips",
+    "Rain": "Rain",
+    "Calculator": "Calculator",
+    "Quiz": "Quiz",
+    "My Profile": "My Profile",
+    "Every Drop Matters.": "Every Drop Matters.",
+    "Today's Water Usage": "Today's Water Usage",
+    "Daily Goal": "Daily Goal",
+    "Current Streak": "Current Streak",
+    "Best Streak": "Best Streak",
+    "Save Water Every Day": "Save Water Every Day",
+    "Enter today's water usage": "Enter today's water usage",
+    "Save Usage": "Save Usage",
+    "Set Daily Goal": "Set Daily Goal",
+    "Update Goal": "Update Goal",
+    "Usage History": "Usage History",
+    "Daily Water Saving Tips": "Daily Water Saving Tips",
+    "Daily Challenge": "Daily Challenge",
+    "Rainwater Harvesting": "Rainwater Harvesting",
+    "Calculate Rainwater": "Calculate Rainwater",
+    "Roof Area (m²)": "Roof Area (m²)",
+    "Rainfall (mm)": "Rainfall (mm)",
+    "Efficiency (%)": "Efficiency (%)",
+    "Calculate": "Calculate",
+    "Daily Usage Calculator": "Daily Usage Calculator",
+    "Shower Usage (L)": "Shower Usage (L)",
+    "Drinking Water (L)": "Drinking Water (L)",
+    "Cleaning (L)": "Cleaning (L)",
+    "Other Usage (L)": "Other Usage (L)",
+    "Calculate Daily Usage": "Calculate Daily Usage",
+    "Water Saving Calculator": "Water Saving Calculator",
+    "Current Usage (L)": "Current Usage (L)",
+    "Water Saved (L)": "Water Saved (L)",
+    "Calculate Saving": "Calculate Saving",
+    "Choose Quiz Level": "Choose Quiz Level",
+    "Easy": "Easy",
+    "Medium": "Medium",
+    "Hard": "Hard",
+    "Next Question": "Next Question",
+    "Stop Quiz": "Stop Quiz",
+    "Your Profile": "Your Profile",
+    "Change Photo": "Change Photo",
+    "Name": "Name",
+    "Username": "Username",
+    "Save Profile": "Save Profile",
+    "Quiz History": "Quiz History",
+    "Reset App Data": "Reset App Data",
+    "Good morning": "Good morning",
+    "Good afternoon": "Good afternoon",
+    "Good evening": "Good evening",
+    "L": "L",
+    "mL": "mL"
   },
 
   hi: {
-    home: "होम",
-    tips: "टिप्स",
-    rain: "बारिश",
-    calculator: "कैलकुलेटर",
-    quiz: "क्विज़",
-    profile: "मेरी प्रोफाइल",
-    welcome: "स्वागत है",
-    usage: "दैनिक पानी का उपयोग",
-    goal: "दैनिक बचत लक्ष्य",
-    history: "उपयोग का इतिहास"
+    "Home": "होम",
+    "Tips": "सलाह",
+    "Rain": "बारिश",
+    "Calculator": "कैलकुलेटर",
+    "Quiz": "क्विज़",
+    "My Profile": "मेरी प्रोफाइल",
+    "Every Drop Matters.": "हर बूंद कीमती है।",
+    "Today's Water Usage": "आज पानी का उपयोग",
+    "Daily Goal": "रोज़ का लक्ष्य",
+    "Current Streak": "लगातार लक्ष्य पूरा",
+    "Best Streak": "सबसे अच्छा रिकॉर्ड",
+    "Save Water Every Day": "हर दिन पानी बचाएँ",
+    "Enter today's water usage": "आज का पानी उपयोग लिखें",
+    "Save Usage": "उपयोग सेव करें",
+    "Set Daily Goal": "रोज़ का लक्ष्य तय करें",
+    "Update Goal": "लक्ष्य अपडेट करें",
+    "Usage History": "उपयोग का इतिहास",
+    "Daily Water Saving Tips": "पानी बचाने के सुझाव",
+    "Daily Challenge": "आज की चुनौती",
+    "Rainwater Harvesting": "वर्षा जल संचयन",
+    "Calculate Rainwater": "बारिश के पानी की गणना",
+    "Roof Area (m²)": "छत का क्षेत्रफल (m²)",
+    "Rainfall (mm)": "बारिश (mm)",
+    "Efficiency (%)": "क्षमता (%)",
+    "Calculate": "गणना करें",
+    "Daily Usage Calculator": "दैनिक उपयोग कैलकुलेटर",
+    "Shower Usage (L)": "नहाने में पानी (L)",
+    "Drinking Water (L)": "पीने का पानी (L)",
+    "Cleaning (L)": "सफाई में पानी (L)",
+    "Other Usage (L)": "अन्य उपयोग (L)",
+    "Calculate Daily Usage": "दैनिक उपयोग निकालें",
+    "Water Saving Calculator": "पानी बचत कैलकुलेटर",
+    "Current Usage (L)": "वर्तमान उपयोग (L)",
+    "Water Saved (L)": "बचाया गया पानी (L)",
+    "Calculate Saving": "बचत निकालें",
+    "Choose Quiz Level": "क्विज़ का स्तर चुनें",
+    "Easy": "आसान",
+    "Medium": "मध्यम",
+    "Hard": "कठिन",
+    "Next Question": "अगला सवाल",
+    "Stop Quiz": "क्विज़ रोकें",
+    "Your Profile": "आपकी प्रोफाइल",
+    "Change Photo": "फोटो बदलें",
+    "Name": "नाम",
+    "Username": "यूज़रनेम",
+    "Save Profile": "प्रोफाइल सेव करें",
+    "Quiz History": "क्विज़ का इतिहास",
+    "Reset App Data": "ऐप का डेटा रीसेट करें",
+    "Good morning": "सुप्रभात",
+    "Good afternoon": "नमस्कार",
+    "Good evening": "शुभ संध्या",
+    "L": "लीटर",
+    "mL": "मिलीलीटर"
   },
 
   hinglish: {
-    home: "Home",
-    tips: "Tips",
-    rain: "Rain",
-    calculator: "Calculator",
-    quiz: "Quiz",
-    profile: "My Profile",
-    welcome: "Swagat hai",
-    usage: "Daily Water Usage",
-    goal: "Daily Saving Goal",
-    history: "Usage History"
+    "Home": "Home",
+    "Tips": "Tips",
+    "Rain": "Rain",
+    "Calculator": "Calculator",
+    "Quiz": "Quiz",
+    "My Profile": "Meri Profile",
+    "Every Drop Matters.": "Har Boond Zaroori Hai.",
+    "Today's Water Usage": "Aaj Ka Water Usage",
+    "Daily Goal": "Daily Goal",
+    "Current Streak": "Current Streak",
+    "Best Streak": "Best Streak",
+    "Save Water Every Day": "Har Din Paani Bachao",
+    "Enter today's water usage": "Aaj ka water usage likhein",
+    "Save Usage": "Usage Save Karein",
+    "Set Daily Goal": "Daily Goal Set Karein",
+    "Update Goal": "Goal Update Karein",
+    "Usage History": "Usage History",
+    "Daily Water Saving Tips": "Daily Water Saving Tips",
+    "Daily Challenge": "Aaj Ka Challenge",
+    "Rainwater Harvesting": "Rainwater Harvesting",
+    "Calculate Rainwater": "Rainwater Calculate Karein",
+    "Roof Area (m²)": "Roof Area (m²)",
+    "Rainfall (mm)": "Rainfall (mm)",
+    "Efficiency (%)": "Efficiency (%)",
+    "Calculate": "Calculate Karein",
+    "Daily Usage Calculator": "Daily Usage Calculator",
+    "Shower Usage (L)": "Shower Usage (L)",
+    "Drinking Water (L)": "Drinking Water (L)",
+    "Cleaning (L)": "Cleaning (L)",
+    "Other Usage (L)": "Other Usage (L)",
+    "Calculate Daily Usage": "Daily Usage Calculate Karein",
+    "Water Saving Calculator": "Water Saving Calculator",
+    "Current Usage (L)": "Current Usage (L)",
+    "Water Saved (L)": "Water Saved (L)",
+    "Calculate Saving": "Saving Calculate Karein",
+    "Choose Quiz Level": "Quiz Level Choose Karein",
+    "Easy": "Easy",
+    "Medium": "Medium",
+    "Hard": "Hard",
+    "Next Question": "Next Question",
+    "Stop Quiz": "Quiz Rokein",
+    "Your Profile": "Aapki Profile",
+    "Change Photo": "Photo Change Karein",
+    "Name": "Naam",
+    "Username": "Username",
+    "Save Profile": "Profile Save Karein",
+    "Quiz History": "Quiz History",
+    "Reset App Data": "App Data Reset Karein",
+    "Good morning": "Good Morning",
+    "Good afternoon": "Good Afternoon",
+    "Good evening": "Good Evening",
+    "L": "L",
+    "mL": "mL"
   }
 };
 
-function applyLanguage() {
+function translatePage() {
   const language = data.language || "en";
+  const dictionary = translations[language] || translations.en;
 
-  document.querySelectorAll("[data-i18n]").forEach((element) => {
-    const key = element.dataset.i18n;
+  document.documentElement.lang = language === "hi" ? "hi" : "en";
 
-    if (translations[language]?.[key]) {
-      element.textContent = translations[language][key];
-    }
+  // Translate elements marked with data-i18n.
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+    const key = el.dataset.i18n;
+    if (dictionary[key]) el.textContent = dictionary[key];
   });
 
-  if ($("languageSelect")) {
-    $("languageSelect").value = language;
-  }
-}
-
-/* NAVIGATION */
-
-function showSection(section) {
-  document.querySelectorAll(".section").forEach((item) => {
-    item.classList.remove("active");
-  });
-
-  document.querySelectorAll(".nav-item").forEach((item) => {
-    item.classList.remove("active");
-  });
-
-  const target = $(section + "Section");
-
-  if (target) {
-    target.classList.add("active");
-  }
-
-  const nav = document.querySelector(
-    `.nav-item[data-section="${section}"]`
+  // Translate matching standalone text nodes.
+  const walker = document.createTreeWalker(
+    document.body,
+    NodeFilter.SHOW_TEXT
   );
 
-  if (nav) {
-    nav.classList.add("active");
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+
+  nodes.forEach((node) => {
+    const original = node.nodeValue.trim();
+    if (!original || !dictionary[original]) return;
+
+    const leading = node.nodeValue.match(/^\s*/)?.[0] || "";
+    const trailing = node.nodeValue.match(/\s*$/)?.[0] || "";
+    node.nodeValue = leading + dictionary[original] + trailing;
+  });
+
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+    const key = el.dataset.i18nPlaceholder;
+    if (dictionary[key]) el.placeholder = dictionary[key];
+  });
+
+  renderApp();
+}
+
+/* =====================================
+   NAVIGATION
+   ===================================== */
+
+function showSection(sectionName) {
+  document.querySelectorAll(".section").forEach((section) => {
+    section.classList.remove("active");
+    section.hidden = true;
+  });
+
+  const target = $(sectionName + "Section");
+  if (target) {
+    target.classList.add("active");
+    target.hidden = false;
   }
 
-  if (section === "home") renderHome();
-  if (section === "tips") renderTips();
-  if (section === "rain") renderRain();
-  if (section === "profile") renderProfile();
+  document.querySelectorAll(".nav-item").forEach((item) => {
+    item.classList.toggle(
+      "active",
+      item.dataset.section === sectionName
+    );
+  });
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-/* HOME */
-
-function greeting() {
-  const hour = new Date().getHours();
-
-  if (hour < 12) return "Good Morning";
-  if (hour < 17) return "Good Afternoon";
-
-  return "Good Evening";
+function setupNavigation() {
+  document.querySelectorAll(".nav-item[data-section]").forEach((item) => {
+    item.addEventListener("click", () => {
+      showSection(item.dataset.section);
+    });
+  });
 }
+
+/* =====================================
+   HOME DASHBOARD
+   ===================================== */
 
 function getTodayUsage() {
-  return data.usage
-    .filter((item) => item.date === today())
-    .reduce((total, item) => total + Number(item.amount), 0);
+  const entry = data.usageHistory.find((item) => item.date === todayKey());
+  return entry ? Number(entry.amount) : 0;
+}
+
+function updateGreeting() {
+  const hour = new Date().getHours();
+  let greeting = "Good morning";
+
+  if (hour >= 12 && hour < 17) greeting = "Good afternoon";
+  if (hour >= 17) greeting = "Good evening";
+
+  const lang = data.language;
+  if (lang === "hi") {
+    greeting = translations.hi[greeting];
+  } else if (lang === "hinglish") {
+    greeting = translations.hinglish[greeting];
+  }
+
+  safeText("greeting", greeting + ", " + data.name + "!");
+}
+
+function renderUsageHistory() {
+  const container = $("usageHistory");
+  if (!container) return;
+
+  if (!data.usageHistory.length) {
+    container.innerHTML = "<p>No usage history yet.</p>";
+    return;
+  }
+
+  container.innerHTML = [...data.usageHistory]
+    .slice(-7)
+    .reverse()
+    .map((item) => `
+      <div class="history-item">
+        <span>${item.date}</span>
+        <strong>${formatNumber(item.amount)} L</strong>
+      </div>
+    `).join("");
 }
 
 function renderHome() {
   const usage = getTodayUsage();
-  const goal = Number(data.goal) || 1;
-  const progress = Math.min((usage / goal) * 100, 100);
+  const goal = Number(data.dailyGoal) || 100;
+  const percent = Math.min(100, Math.round((usage / goal) * 100));
 
-  if ($("greeting")) {
-    $("greeting").textContent =
-      `${greeting()}, ${data.name}!`;
-  }
+  safeText("todayUsage", formatNumber(usage) + " L");
+  safeText("goalValue", formatNumber(goal) + " L");
+  safeText("streakValue", data.streak);
+  safeText("bestStreak", data.bestStreak);
 
-  if ($("todayUsage")) {
-    $("todayUsage").textContent =
-      `${usage.toFixed(2)} L`;
-  }
+  const progressBar = $("progressBar");
+  if (progressBar) progressBar.style.width = percent + "%";
 
-  if ($("goalValue")) {
-    $("goalValue").textContent = `${goal} L`;
-  }
+  safeText("progressText", percent + "% of daily usage goal");
 
-  if ($("progressBar")) {
-    $("progressBar").style.width = `${progress}%`;
-  }
+  const goalInput = $("goalInput");
+  if (goalInput) goalInput.value = goal;
 
-  if ($("progressText")) {
-    $("progressText").textContent =
-      `${Math.round(progress)}% completed`;
-  }
-
-  if ($("streakValue")) {
-    $("streakValue").textContent = data.streak;
-  }
-
-  if ($("bestStreak")) {
-    $("bestStreak").textContent = data.bestStreak;
-  }
-
-  renderHistory();
+  renderUsageHistory();
+  updateGreeting();
 }
 
-/* USAGE HISTORY */
+function updateStreak() {
+  const today = todayKey();
 
-function renderHistory() {
-  const container = $("usageHistory");
+  if (data.lastGoalDate === today) return;
 
-  if (!container) return;
-
-  const recent = [...data.usage]
-    .reverse()
-    .slice(0, 10);
-
-  if (!recent.length) {
-    container.innerHTML =
-      '<p class="empty-state">No usage records yet.</p>';
-    return;
+  if (data.lastGoalDate === yesterdayKey()) {
+    data.streak += 1;
+  } else {
+    data.streak = 1;
   }
 
-  container.innerHTML = recent.map((item) => `
-    <div class="history-item">
-      <span>${escapeHTML(item.date)}</span>
-      <strong>${Number(item.amount).toFixed(2)} L</strong>
-    </div>
-  `).join("");
+  data.bestStreak = Math.max(data.bestStreak, data.streak);
+  data.lastGoalDate = today;
 }
 
-/* ADD WATER USAGE */
+function setupUsageForm() {
+  const form = $("usageForm");
+  if (!form) return;
 
-function addUsage(event) {
-  event.preventDefault();
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-  const amount = Number($("usageAmount")?.value);
+    const input = $("usageAmount");
+    const amount = Number(input?.value);
 
-  if (!Number.isFinite(amount) || amount <= 0) {
-    alert("Please enter a valid amount.");
-    return;
-  }
-
-  data.usage.push({
-    amount,
-    date: today(),
-    time: new Date().toLocaleTimeString()
-  });
-
-  saveData();
-
-  if ($("usageAmount")) {
-    $("usageAmount").value = "";
-  }
-
-  checkGoal();
-  renderHome();
-
-  alert("Water usage saved successfully!");
-}
-
-/* GOAL AND STREAK */
-
-function checkGoal() {
-  const usage = getTodayUsage();
-
-  if (
-    usage >= Number(data.goal) &&
-    data.lastGoalDate !== today()
-  ) {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    const yesterdayDate = yesterday.toISOString().slice(0, 10);
-
-    if (data.lastGoalDate === yesterdayDate) {
-      data.streak += 1;
-    } else {
-      data.streak = 1;
+    if (!Number.isFinite(amount) || amount < 0) {
+      alert("Please enter a valid water amount.");
+      return;
     }
 
-    data.bestStreak = Math.max(
-      data.bestStreak,
-      data.streak
-    );
+    const today = todayKey();
+    const existing = data.usageHistory.find((item) => item.date === today);
 
-    data.lastGoalDate = today();
+    if (existing) {
+      existing.amount = amount;
+    } else {
+      data.usageHistory.push({ date: today, amount });
+    }
+
+    if (amount <= Number(data.dailyGoal)) {
+      updateStreak();
+    }
 
     saveData();
-
-    alert(
-      "Congratulations! Your daily goal is completed! 🎉"
-    );
-  }
+    renderApp();
+    form.reset();
+  });
 }
 
-function updateGoal(event) {
-  event.preventDefault();
+function setupGoalForm() {
+  const form = $("goalForm");
+  if (!form) return;
 
-  const goal = Number($("goalInput")?.value);
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-  if (!Number.isFinite(goal) || goal <= 0) {
-    alert("Please enter a valid goal.");
-    return;
-  }
+    const goal = Number($("goalInput")?.value);
 
-  data.goal = goal;
+    if (!Number.isFinite(goal) || goal <= 0) {
+      alert("Please enter a valid goal.");
+      return;
+    }
 
-  saveData();
-  renderHome();
-
-  alert("Daily goal updated!");
+    data.dailyGoal = goal;
+    saveData();
+    renderApp();
+    alert("Daily goal updated!");
+  });
 }
 
-/* DAILY TIPS */
+/* =====================================
+   TIPS AND CHALLENGE
+   ===================================== */
 
 const tips = [
   {
-    icon: "🚿",
-    title: "Take shorter showers",
-    text: "Reduce shower time to avoid unnecessary water use."
-  },
-  {
     icon: "🚰",
-    title: "Turn off unused taps",
-    text: "Turn off the tap while brushing your teeth."
-  },
-  {
-    icon: "🌱",
-    title: "Water plants wisely",
-    text: "Water plants in the morning or evening."
+    title: "Turn Off the Tap",
+    description: "Turn off the tap while brushing your teeth."
   },
   {
     icon: "🪣",
-    title: "Use a bucket",
-    text: "Use a bucket instead of a running hose when possible."
+    title: "Use a Bucket",
+    description: "Use a bucket instead of a running shower when possible."
   },
   {
-    icon: "🌧️",
-    title: "Collect rainwater",
-    text: "Collect rainwater for gardening and cleaning."
+    icon: "🌱",
+    title: "Water Plants Wisely",
+    description: "Water plants in the morning or evening."
   },
   {
     icon: "🔧",
-    title: "Fix leaking taps",
-    text: "Repair leaking taps to prevent water waste."
+    title: "Fix Leaks",
+    description: "Report leaking taps and pipes."
   },
   {
     icon: "🧺",
-    title: "Full laundry loads",
-    text: "Run your washing machine with a full load."
+    title: "Full Loads",
+    description: "Run washing machines only with suitable full loads."
+  },
+  {
+    icon: "🌧️",
+    title: "Collect Rainwater",
+    description: "Collect rainwater for gardening and cleaning."
   }
 ];
 
 function renderTips() {
   const container = $("tipsContainer");
-
   if (!container) return;
 
-  const day = Math.floor(
-    new Date().setHours(0, 0, 0, 0) / 86400000
-  );
-
-  const dailyTip = tips[day % tips.length];
+  const todayIndex = new Date().getDate() % tips.length;
+  const dailyTip = tips[todayIndex];
 
   container.innerHTML = `
-    <div class="tip-card">
+    <article class="tip-card">
       <div class="tip-icon">${dailyTip.icon}</div>
-      <h3>Today's Tip: ${dailyTip.title}</h3>
-      <p>${dailyTip.text}</p>
-    </div>
-
+      <h3>${dailyTip.title}</h3>
+      <p>${dailyTip.description}</p>
+    </article>
     ${tips.map((tip) => `
-      <div class="tip-card">
+      <article class="tip-card">
         <div class="tip-icon">${tip.icon}</div>
         <h3>${tip.title}</h3>
-        <p>${tip.text}</p>
-      </div>
+        <p>${tip.description}</p>
+      </article>
     `).join("")}
   `;
 }
 
-/* CHALLENGE */
+/* =====================================
+   RAINWATER HARVESTING
+   ===================================== */
 
-function completeChallenge(name) {
-  if (!data.challenges.includes(name)) {
-    data.challenges.push(name);
+function setupRainCalculator() {
+  const form = $("rainForm");
+  if (!form) return;
 
-    saveData();
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-    alert("Great job! Challenge completed! 🌱");
-  } else {
-    alert("You have already completed this challenge!");
-  }
+    const area = Number($("roofArea")?.value);
+    const rainfall = Number($("rainfall")?.value);
+    const efficiency = Number($("efficiency")?.value || 80);
+
+    if (
+      !Number.isFinite(area) || area <= 0 ||
+      !Number.isFinite(rainfall) || rainfall < 0 ||
+      !Number.isFinite(efficiency) || efficiency < 0 || efficiency > 100
+    ) {
+      alert("Please enter valid values.");
+      return;
+    }
+
+    // 1 mm rainfall on 1 m² = 1 litre.
+    const litres = area * rainfall * (efficiency / 100);
+
+    const result = $("rainResult");
+    if (result) {
+      result.innerHTML = `
+        <div class="result-card">
+          <h3>Estimated Rainwater</h3>
+          <strong>${formatNumber(Math.round(litres))} L</strong>
+          <p>You could collect approximately this much water.</p>
+        </div>
+      `;
+    }
+  });
 }
 
-/* RAINWATER CALCULATOR */
+/* =====================================
+   WATER CALCULATORS
+   ===================================== */
 
-function calculateRainwater(event) {
-  event.preventDefault();
+function setupDailyCalculator() {
+  const form = $("dailyCalcForm");
+  if (!form) return;
 
-  const area = Number($("roofArea")?.value);
-  const rainfall = Number($("rainfall")?.value);
-  const efficiency = Number($("efficiency")?.value || 80);
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-  if (
-    !Number.isFinite(area) ||
-    !Number.isFinite(rainfall) ||
-    !Number.isFinite(efficiency) ||
-    area <= 0 ||
-    rainfall < 0 ||
-    efficiency < 0 ||
-    efficiency > 100
-  ) {
-    alert("Please enter valid values.");
-    return;
-  }
+    const ids = [
+      "showerUsage",
+      "drinkingUsage",
+      "cleaningUsage",
+      "otherUsage"
+    ];
 
-  const litres = area * rainfall * efficiency / 100;
+    const values = ids.map((id) => Number($(id)?.value || 0));
 
-  if ($("rainResult")) {
-    $("rainResult").innerHTML = `
-      <div class="message">
-        Estimated rainwater collection:
-        <strong>${litres.toFixed(2)} L</strong>
-        <br>
-        ${(
-          litres * 1000
-        ).toFixed(0)} mL
-      </div>
-    `;
-  }
+    if (values.some((value) => !Number.isFinite(value) || value < 0)) {
+      alert("Please enter valid amounts.");
+      return;
+    }
+
+    const total = values.reduce((sum, value) => sum + value, 0);
+    const result = $("dailyCalcResult");
+
+    if (result) {
+      result.innerHTML = `
+        <div class="result-card">
+          <h3>Total Daily Water Usage</h3>
+          <strong>${formatNumber(total)} L</strong>
+        </div>
+      `;
+    }
+  });
 }
 
-function renderRain() {
-  if ($("rainResult") && !$("rainResult").innerHTML) {
-    $("rainResult").innerHTML = "";
-  }
+function setupSavingCalculator() {
+  const form = $("savingForm");
+  if (!form) return;
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const current = Number($("currentUsage")?.value);
+    const saved = Number($("savedUsage")?.value);
+
+    if (
+      !Number.isFinite(current) || current < 0 ||
+      !Number.isFinite(saved) || saved < 0
+    ) {
+      alert("Please enter valid amounts.");
+      return;
+    }
+
+    const remaining = Math.max(0, current - saved);
+    const percentage = current > 0
+      ? Math.min(100, (saved / current) * 100)
+      : 0;
+
+    const result = $("savingResult");
+
+    if (result) {
+      result.innerHTML = `
+        <div class="result-card">
+          <h3>Water Saving Result</h3>
+          <strong>${formatNumber(saved)} L saved</strong>
+          <p>Remaining usage: ${formatNumber(remaining)} L</p>
+          <p>Saving: ${percentage.toFixed(1)}%</p>
+        </div>
+      `;
+    }
+  });
 }
 
-/* DAILY WATER CALCULATOR */
+/* =====================================
+   QUIZ QUESTIONS
+   ===================================== */
 
-function calculateDailyUsage(event) {
-  event.preventDefault();
-
-  const shower = Number($("showerUsage")?.value || 0);
-  const drinking = Number($("drinkingUsage")?.value || 0);
-  const cleaning = Number($("cleaningUsage")?.value || 0);
-  const other = Number($("otherUsage")?.value || 0);
-
-  const values = [shower, drinking, cleaning, other];
-
-  if (values.some((value) => !Number.isFinite(value) || value < 0)) {
-    alert("Please enter valid values.");
-    return;
-  }
-
-  const total = values.reduce((sum, value) => sum + value, 0);
-
-  if ($("dailyCalcResult")) {
-    $("dailyCalcResult").innerHTML = `
-      <div class="message">
-        Total daily usage:
-        <strong>${total.toFixed(2)} L</strong>
-        <br>
-        ${(total * 1000).toFixed(0)} mL
-      </div>
-    `;
-  }
-}
-
-/* WATER SAVING CALCULATOR */
-
-function calculateSaving(event) {
-  event.preventDefault();
-
-  const current = Number($("currentUsage")?.value);
-  const saved = Number($("savedUsage")?.value);
-
-  if (
-    !Number.isFinite(current) ||
-    !Number.isFinite(saved) ||
-    current < 0 ||
-    saved < 0 ||
-    saved > current
-  ) {
-    alert("Please enter valid values.");
-    return;
-  }
-
-  const percentage =
-    current > 0 ? (saved / current) * 100 : 0;
-
-  if ($("savingResult")) {
-    $("savingResult").innerHTML = `
-      <div class="message">
-        Water saved: <strong>${saved.toFixed(2)} L</strong>
-        <br>
-        ${(saved * 1000).toFixed(0)} mL
-        <br>
-        Saving percentage:
-        <strong>${percentage.toFixed(1)}%</strong>
-      </div>
-    `;
-  }
-}
-
-/* QUIZ QUESTIONS */
-
-const questionBank = {
+const quizQuestions = {
   easy: [
     {
-      q: "Which planet is known as the Blue Planet?",
-      options: ["Mars", "Earth", "Venus", "Jupiter"],
+      q: "Which of these is a way to save water?",
+      options: ["Leave taps running", "Turn off taps", "Waste water", "Ignore leaks"],
       answer: 1,
-      explanation: "Earth looks blue from space because much of its surface is covered by water."
+      explanation: "Turning off taps when not needed helps save water."
     },
     {
-      q: "Which action saves water?",
-      options: ["Leaving taps open", "Fixing leaks", "Wasting water", "Washing roads daily"],
-      answer: 1,
-      explanation: "Fixing leaks prevents unnecessary water loss."
-    },
-    {
-      q: "Which is a natural source of fresh water?",
-      options: ["River", "Petrol", "Smoke", "Plastic"],
+      q: "What is rainwater harvesting?",
+      options: ["Collecting rainwater", "Wasting rainwater", "Heating water", "Making clouds"],
       answer: 0,
-      explanation: "Rivers are important sources of fresh water."
+      explanation: "Rainwater harvesting means collecting and storing rainwater."
     },
     {
-      q: "What do plants need to grow?",
-      options: ["Plastic", "Water", "Oil", "Smoke"],
-      answer: 1,
-      explanation: "Plants need water, sunlight, air and nutrients."
+      q: "Which planet is known as the Blue Planet?",
+      options: ["Mars", "Venus", "Earth", "Mercury"],
+      answer: 2,
+      explanation: "Earth looks blue from space because of its water."
     },
     {
-      q: "What should we do while brushing?",
-      options: ["Keep tap open", "Turn tap off", "Waste water", "Ignore the tap"],
-      answer: 1,
-      explanation: "Turning off the tap while brushing saves water."
+      q: "Which water is safe to drink?",
+      options: ["Clean drinking water", "Dirty water", "Flood water", "Drain water"],
+      answer: 0,
+      explanation: "Safe drinking water should be clean and treated."
+    },
+    {
+      q: "What should you do if a tap is leaking?",
+      options: ["Ignore it", "Keep it open", "Get it fixed", "Waste more water"],
+      answer: 2,
+      explanation: "Fixing leaks prevents unnecessary water waste."
     }
   ],
 
   medium: [
     {
-      q: "What is rainwater harvesting?",
-      options: [
-        "Collecting and storing rainwater",
-        "Wasting rainwater",
-        "Making artificial rain",
-        "Cleaning oceans"
-      ],
-      answer: 0,
-      explanation: "Rainwater harvesting collects rainwater for later use."
-    },
-    {
-      q: "Which gas do plants absorb during photosynthesis?",
-      options: ["Oxygen", "Carbon dioxide", "Nitrogen", "Hydrogen"],
+      q: "Which process changes water vapour into liquid?",
+      options: ["Evaporation", "Condensation", "Melting", "Freezing"],
       answer: 1,
-      explanation: "Plants use carbon dioxide during photosynthesis."
+      explanation: "Condensation changes water vapour into liquid droplets."
     },
     {
-      q: "Which practice helps protect soil?",
-      options: ["Deforestation", "Planting trees", "Burning forests", "Overgrazing"],
+      q: "Which is a natural source of freshwater?",
+      options: ["Ocean", "River", "Salt lake", "Sea"],
       answer: 1,
-      explanation: "Tree roots help hold soil together."
+      explanation: "Rivers are an important source of freshwater."
     },
     {
-      q: "What is groundwater?",
-      options: [
-        "Water stored beneath Earth's surface",
-        "Water in clouds",
-        "Ocean waves",
-        "Water vapour"
-      ],
+      q: "What does groundwater mean?",
+      options: ["Water in clouds", "Water under the ground", "Ocean water", "Rain in the air"],
+      answer: 1,
+      explanation: "Groundwater is water stored beneath Earth's surface."
+    },
+    {
+      q: "Which activity can reduce water waste?",
+      options: ["Repairing pipe leaks", "Leaving taps open", "Overwatering plants", "Washing roads daily"],
       answer: 0,
-      explanation: "Groundwater is water found below the ground."
+      explanation: "Repairing leaks helps prevent water loss."
     },
     {
-      q: "Which is a renewable resource?",
-      options: ["Coal", "Petroleum", "Sunlight", "Natural gas"],
-      answer: 2,
-      explanation: "Sunlight is naturally replenished."
+      q: "What is the main source of energy for the water cycle?",
+      options: ["Moon", "Sun", "Wind", "Soil"],
+      answer: 1,
+      explanation: "The Sun provides energy for evaporation."
     }
   ],
 
   hard: [
     {
-      q: "Which process changes water vapour into liquid water?",
-      options: ["Evaporation", "Condensation", "Melting", "Sublimation"],
+      q: "What is the main purpose of a recharge pit?",
+      options: ["Store plastic", "Help water enter the ground", "Heat water", "Make salt"],
       answer: 1,
-      explanation: "Condensation changes water vapour into liquid droplets."
+      explanation: "Recharge pits help rainwater seep into the ground."
     },
     {
-      q: "Which layer protects Earth from much harmful UV radiation?",
-      options: ["Ozone layer", "Cloud layer", "Soil layer", "Ocean layer"],
+      q: "Which layer can store groundwater?",
+      options: ["Aquifer", "Cloud", "Atmosphere", "Ozone layer"],
       answer: 0,
-      explanation: "The ozone layer absorbs much of the Sun's harmful UV radiation."
+      explanation: "An aquifer is a layer of rock or sediment that stores groundwater."
     },
     {
-      q: "What is a major cause of ocean acidification?",
-      options: [
-        "Carbon dioxide absorption",
-        "More sunlight",
-        "Wind",
-        "Freshwater"
-      ],
+      q: "What is water conservation?",
+      options: ["Using water carefully", "Using more water", "Polluting rivers", "Draining lakes"],
       answer: 0,
-      explanation: "Oceans absorb carbon dioxide, changing seawater chemistry."
+      explanation: "Water conservation means protecting and using water wisely."
     },
     {
-      q: "Which method can reduce soil erosion?",
-      options: [
-        "Removing vegetation",
-        "Contour farming",
-        "Deforestation",
-        "Overgrazing"
-      ],
+      q: "Which practice helps protect watersheds?",
+      options: ["Deforestation", "Planting trees", "Dumping waste", "Soil pollution"],
       answer: 1,
-      explanation: "Contour farming can reduce runoff and soil erosion."
+      explanation: "Trees help protect soil and support healthy watersheds."
     },
     {
-      q: "What does biodiversity mean?",
-      options: [
-        "Variety of life",
-        "Only plant life",
-        "Only animal life",
-        "Weather changes"
-      ],
-      answer: 0,
-      explanation: "Biodiversity means the variety of living organisms."
+      q: "What does water scarcity mean?",
+      options: ["Too much rainfall", "Not enough available water", "Clean oceans", "More rivers"],
+      answer: 1,
+      explanation: "Water scarcity happens when available water cannot meet demand."
     }
   ]
 };
 
-/* QUIZ START */
+function startQuiz(level) {
+  clearInterval(quizState.timer);
 
-function startQuiz(level = "easy") {
-  clearInterval(quizTimer);
+  quizState = {
+    questions: [...(quizQuestions[level] || quizQuestions.easy)]
+      .sort(() => Math.random() - 0.5),
+    current: 0,
+    score: 0,
+    answers: [],
+    timeLeft: 10,
+    timer: null,
+    level,
+    finished: false
+  };
 
-  currentLevel = level;
-
-  const questions = questionBank[level] || questionBank.easy;
-
-  quizQuestions = [...questions].sort(
-    () => Math.random() - 0.5
-  );
-
-  quizIndex = 0;
-  quizScore = 0;
-  quizCorrect = 0;
-
-  if ($("quizArea")) {
-    $("quizArea").style.display = "block";
-  }
-
-  showQuestion();
+  renderQuestion();
 }
 
-/* SHOW QUESTION */
+function renderQuestion() {
+  const area = $("quizArea");
+  if (!area) return;
 
-function showQuestion() {
-  clearInterval(quizTimer);
-
-  if (quizIndex >= quizQuestions.length) {
+  if (quizState.current >= quizState.questions.length) {
     finishQuiz();
     return;
   }
 
-  quizAnswered = false;
-  timeLeft = 10;
+  const question = quizState.questions[quizState.current];
 
-  const question = quizQuestions[quizIndex];
+  safeText(
+    "quizProgress",
+    `Question ${quizState.current + 1} / ${quizState.questions.length}`
+  );
 
-  if ($("quizProgress")) {
-    $("quizProgress").textContent =
-      `Question ${quizIndex + 1} of ${quizQuestions.length}`;
-  }
+  safeText("quizQuestion", question.q);
+  safeText("quizFeedback", "");
 
-  if ($("quizTimer")) {
-    $("quizTimer").textContent = timeLeft;
-  }
+  const options = $("quizOptions");
+  if (options) {
+    options.innerHTML = question.options.map((option, index) => `
+      <button type="button" class="quiz-option" data-answer="${index}">
+        ${option}
+      </button>
+    `).join("");
 
-  if ($("quizQuestion")) {
-    $("quizQuestion").textContent = question.q;
-  }
-
-  if ($("quizOptions")) {
-    $("quizOptions").innerHTML = question.options.map(
-      (option, index) => `
-        <button
-          class="quiz-option"
-          data-answer="${index}"
-        >
-          ${escapeHTML(option)}
-        </button>
-      `
-    ).join("");
-
-    $("quizOptions")
-      .querySelectorAll(".quiz-option")
-      .forEach((button) => {
-        button.addEventListener("click", () => {
-          answerQuestion(Number(button.dataset.answer));
-        });
+    options.querySelectorAll("[data-answer]").forEach((button) => {
+      button.addEventListener("click", () => {
+        answerQuestion(Number(button.dataset.answer));
       });
+    });
   }
 
-  if ($("quizFeedback")) {
-    $("quizFeedback").innerHTML = "";
-  }
+  const next = $("nextQuestion");
+  if (next) next.hidden = true;
 
-  if ($("nextQuestion")) {
-    $("nextQuestion").style.display = "none";
-  }
+  const stop = $("stopQuiz");
+  if (stop) stop.hidden = false;
 
-  quizTimer = setInterval(() => {
-    timeLeft--;
+  startQuizTimer();
+}
 
-    if ($("quizTimer")) {
-      $("quizTimer").textContent = timeLeft;
-    }
+function startQuizTimer() {
+  clearInterval(quizState.timer);
+  quizState.timeLeft = 10;
+  updateTimer();
 
-    if (timeLeft <= 0) {
-      clearInterval(quizTimer);
+  quizState.timer = setInterval(() => {
+    quizState.timeLeft -= 1;
+    updateTimer();
+
+    if (quizState.timeLeft <= 0) {
       answerQuestion(-1);
     }
   }, 1000);
 }
 
-/* ANSWER QUESTION */
+function updateTimer() {
+  safeText("quizTimer", quizState.timeLeft + "s");
+}
 
 function answerQuestion(selectedIndex) {
-  if (quizAnswered) return;
+  if (quizState.finished || quizState.answers.length > quizState.current) return;
 
-  quizAnswered = true;
+  clearInterval(quizState.timer);
 
-  clearInterval(quizTimer);
+  const question = quizState.questions[quizState.current];
+  const correct = selectedIndex === question.answer;
 
-  const question = quizQuestions[quizIndex];
+  if (correct) quizState.score += 1;
 
-  document.querySelectorAll(".quiz-option").forEach(
-    (button, index) => {
+  quizState.answers.push({
+    selected: selectedIndex,
+    correct
+  });
+
+  const options = $("quizOptions");
+
+  if (options) {
+    options.querySelectorAll("[data-answer]").forEach((button) => {
       button.disabled = true;
+      const index = Number(button.dataset.answer);
 
       if (index === question.answer) {
         button.classList.add("correct");
+      } else if (index === selectedIndex) {
+        button.classList.add("incorrect");
       }
-
-      if (
-        index === selectedIndex &&
-        selectedIndex !== question.answer
-      ) {
-        button.classList.add("wrong");
-      }
-    }
-  );
-
-  if (selectedIndex === question.answer) {
-    quizScore++;
-    quizCorrect++;
+    });
   }
 
-  let message = "Not quite!";
-
-  if (selectedIndex === question.answer) {
-    message = "Correct answer! 🎉";
-  } else if (selectedIndex === -1) {
-    message = "Time is up!";
+  const feedback = $("quizFeedback");
+  if (feedback) {
+    feedback.textContent =
+      (correct ? "Correct! " : "Not quite. ") + question.explanation;
   }
 
-  if ($("quizFeedback")) {
-    $("quizFeedback").innerHTML = `
-      <div class="message">
-        <strong>${message}</strong>
-        <br>
-        Correct answer:
-        ${escapeHTML(question.options[question.answer])}
-        <br>
-        ${escapeHTML(question.explanation)}
-      </div>
-    `;
-  }
-
-  if ($("nextQuestion")) {
-    $("nextQuestion").style.display = "block";
-  }
+  const next = $("nextQuestion");
+  if (next) next.hidden = false;
 }
-
-/* NEXT QUESTION */
-
-function nextQuestion() {
-  if (!quizAnswered) return;
-
-  quizIndex++;
-
-  showQuestion();
-}
-
-/* STOP QUIZ */
-
-function stopQuiz() {
-  clearInterval(quizTimer);
-
-  if ($("quizArea")) {
-    $("quizArea").style.display = "none";
-  }
-}
-
-/* QUIZ RESULTS */
 
 function finishQuiz() {
-  clearInterval(quizTimer);
+  clearInterval(quizState.timer);
+  quizState.finished = true;
 
-  const total = quizQuestions.length;
+  const total = quizState.questions.length;
+  const accuracy = total ? Math.round((quizState.score / total) * 100) : 0;
 
-  const accuracy = total
-    ? (quizCorrect / total) * 100
-    : 0;
-
-  data.scores.push({
-    date: today(),
-    score: quizScore,
+  const record = {
+    date: todayKey(),
+    level: quizState.level,
+    score: quizState.score,
     total,
-    accuracy: accuracy.toFixed(1),
-    level: currentLevel
-  });
-
-  saveData();
-
-  if ($("quizArea")) {
-    $("quizArea").innerHTML = `
-      <div class="card">
-        <h2>🎉 Quiz Completed!</h2>
-
-        <h3>Score: ${quizScore}/${total}</h3>
-
-        <p>Accuracy: ${accuracy.toFixed(1)}%</p>
-
-        <p>
-          ${
-            accuracy >= 80
-              ? "Excellent work! Keep learning."
-              : accuracy >= 50
-                ? "Good effort! Keep practising."
-                : "Keep trying. You can improve!"
-          }
-        </p>
-
-        <button
-          class="btn"
-          onclick="startQuiz('${currentLevel}')"
-        >
-          Play Another Round
-        </button>
-
-        <button
-          class="btn btn-secondary"
-          onclick="stopQuiz()"
-        >
-          Finish Quiz
-        </button>
-      </div>
-
-      ${renderLeaderboard()}
-    `;
-  }
-
-  renderScoreHistory();
-}
-
-/* LEADERBOARD */
-
-function renderLeaderboard() {
-  const scores = [...data.scores]
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 10);
-
-  if (!scores.length) return "";
-
-  return `
-    <div class="card">
-      <h2>🏆 My High Scores</h2>
-
-      ${scores.map((score, index) => `
-        <div class="history-item">
-          <span>
-            ${index + 1}. ${escapeHTML(score.date)}
-          </span>
-
-          <strong>
-            ${score.score}/${score.total}
-          </strong>
-        </div>
-      `).join("")}
-
-      <p>Local scores saved on this device.</p>
-    </div>
-  `;
-}
-
-/* PROFILE */
-
-function renderProfile() {
-  if ($("profileName")) {
-    $("profileName").textContent = data.name;
-  }
-
-  if ($("profileUsername")) {
-    $("profileUsername").textContent =
-      "@" + data.username;
-  }
-
-  if ($("nameInput")) {
-    $("nameInput").value = data.name;
-  }
-
-  if ($("usernameInput")) {
-    $("usernameInput").value = data.username;
-  }
-
-  if ($("goalInput")) {
-    $("goalInput").value = data.goal;
-  }
-
-  const avatar = $("profileAvatar");
-
-  if (avatar) {
-    if (data.photo) {
-      avatar.innerHTML =
-        `<img src="${data.photo}" alt="Profile photo">`;
-    } else {
-      avatar.textContent = "💧";
-    }
-  }
-
-  renderScoreHistory();
-}
-
-function saveProfile(event) {
-  event.preventDefault();
-
-  data.name =
-    $("nameInput")?.value.trim() || "Water Saver";
-
-  data.username =
-    $("usernameInput")?.value.trim() || "watersaver";
-
-  saveData();
-
-  renderProfile();
-  renderHome();
-
-  alert("Profile updated successfully!");
-}
-
-/* PROFILE PHOTO */
-
-function uploadPhoto(event) {
-  const file = event.target.files?.[0];
-
-  if (!file) return;
-
-  if (!file.type.startsWith("image/")) {
-    alert("Please choose an image.");
-    return;
-  }
-
-  if (file.size > 2 * 1024 * 1024) {
-    alert("Choose an image smaller than 2 MB.");
-    return;
-  }
-
-  const reader = new FileReader();
-
-  reader.onload = () => {
-    data.photo = reader.result;
-
-    saveData();
-    renderProfile();
+    accuracy
   };
 
-  reader.readAsDataURL(file);
-}
-
-/* SCORE HISTORY */
-
-function renderScoreHistory() {
-  const containers = document.querySelectorAll("#scoreHistory");
-
-  const html = data.scores.length
-    ? renderLeaderboard()
-    : '<p class="empty-state">No quiz scores yet.</p>';
-
-  containers.forEach((container) => {
-    container.innerHTML = html;
-  });
-}
-
-/* RESET APP DATA */
-
-function resetData() {
-  const confirmed = confirm(
-    "Are you sure you want to delete your saved app data?"
-  );
-
-  if (!confirmed) return;
-
-  localStorage.removeItem("waterConversation");
-
-  data = { ...defaultData };
-
+  data.quizHistory.push(record);
+  data.quizHistory = data.quizHistory.slice(-30);
   saveData();
 
-  renderHome();
-  renderProfile();
-  renderScoreHistory();
+  const area = $("quizArea");
 
-  alert("App data has been reset.");
-}
+  if (area) {
+    area.innerHTML = `
+      <div class="result-card">
+        <h2>Quiz Completed! 🎉</h2>
+        <h3>Score: ${quizState.score} / ${total}</h3>
+        <p>Accuracy: ${accuracy}%</p>
+        <p>Level: ${quizState.level}</p>
+        <button type="button" class="btn" id="playAgainButton">
+          Play Again
+        </button>
+      </div>
+    `;
 
-/* HTML SAFETY */
-
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, (character) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#039;"
-  })[character]);
-}
-
-/* EVENT LISTENERS */
-
-function bindEvents() {
-
-  document.querySelectorAll(".nav-item").forEach((button) => {
-    button.addEventListener("click", () => {
-      showSection(button.dataset.section);
+    $("playAgainButton")?.addEventListener("click", () => {
+      startQuiz(quizState.level);
     });
+  }
+
+  safeText("quizProgress", "Quiz completed");
+  safeText("quizTimer", "");
+
+  const stop = $("stopQuiz");
+  if (stop) stop.hidden = true;
+
+  renderQuizHistory();
+}
+
+function renderQuizHistory() {
+  document.querySelectorAll("#scoreHistory").forEach((container) => {
+    if (!container) return;
+
+    if (!data.quizHistory.length) {
+      container.innerHTML = "<p>No quiz scores yet.</p>";
+      return;
+    }
+
+    container.innerHTML = [...data.quizHistory]
+      .slice(-5)
+      .reverse()
+      .map((item) => `
+        <div class="history-item">
+          <span>${item.date} · ${item.level}</span>
+          <strong>${item.score}/${item.total} (${item.accuracy}%)</strong>
+        </div>
+      `).join("");
   });
+}
 
-  $("languageSelect")?.addEventListener("change", (event) => {
-    data.language = event.target.value;
-
-    saveData();
-    applyLanguage();
-  });
-
-  $("usageForm")?.addEventListener("submit", addUsage);
-
-  $("goalForm")?.addEventListener("submit", updateGoal);
-
-  $("profileForm")?.addEventListener("submit", saveProfile);
-
-  $("photoInput")?.addEventListener("change", uploadPhoto);
-
-  $("rainForm")?.addEventListener("submit", calculateRainwater);
-
-  $("dailyCalcForm")?.addEventListener(
-    "submit",
-    calculateDailyUsage
-  );
-
-  $("savingForm")?.addEventListener("submit", calculateSaving);
-
-  $("nextQuestion")?.addEventListener("click", nextQuestion);
-
-  $("stopQuiz")?.addEventListener("click", stopQuiz);
-
-  $("resetButton")?.addEventListener("click", resetData);
-
+function setupQuiz() {
   document.querySelectorAll("[data-quiz-level]").forEach((button) => {
     button.addEventListener("click", () => {
       startQuiz(button.dataset.quizLevel);
     });
   });
+
+  $("nextQuestion")?.addEventListener("click", () => {
+    quizState.current += 1;
+    renderQuestion();
+  });
+
+  $("stopQuiz")?.addEventListener("click", () => {
+    clearInterval(quizState.timer);
+    quizState.finished = true;
+
+    const area = $("quizArea");
+    if (area) area.innerHTML = "<p>Quiz stopped. Choose a level to play again.</p>";
+
+    safeText("quizProgress", "");
+    safeText("quizTimer", "");
+  });
 }
 
-/* INITIALIZE APP */
+/* =====================================
+   PROFILE
+   ===================================== */
 
-function init() {
-  bindEvents();
+function renderProfile() {
+  safeText("profileName", data.name);
+  safeText("profileUsername", data.username);
 
-  applyLanguage();
+  const nameInput = $("nameInput");
+  const usernameInput = $("usernameInput");
 
+  if (nameInput) nameInput.value = data.name;
+  if (usernameInput) usernameInput.value = data.username;
+
+  const avatar = $("profileAvatar");
+
+  if (avatar) {
+    if (data.photo) {
+      avatar.innerHTML = `<img src="${data.photo}" alt="Profile photo">`;
+    } else {
+      avatar.textContent = "💧";
+    }
+  }
+
+  renderQuizHistory();
+}
+
+function setupProfile() {
+  const form = $("profileForm");
+
+  if (form) {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      data.name = $("nameInput")?.value.trim() || "Water Saver";
+      data.username = $("usernameInput")?.value.trim() || "@watersaver";
+
+      saveData();
+      renderApp();
+      alert("Profile updated!");
+    });
+  }
+
+  $("photoInput")?.addEventListener("change", (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Please select an image file.");
+      return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      alert("Please choose an image smaller than 2 MB.");
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      data.photo = reader.result;
+      saveData();
+      renderProfile();
+    };
+
+    reader.readAsDataURL(file);
+  });
+
+  $("resetButton")?.addEventListener("click", () => {
+    const confirmed = confirm(
+      "Are you sure you want to reset all app data?"
+    );
+
+    if (!confirmed) return;
+
+    localStorage.removeItem(STORAGE_KEY);
+    data = { ...defaultData };
+    saveData();
+    clearInterval(quizState.timer);
+    renderApp();
+    showSection("home");
+  });
+}
+
+/* =====================================
+   LANGUAGE SELECTOR
+   ===================================== */
+
+function setupLanguage() {
+  const selector = $("languageSelect");
+  if (!selector) return;
+
+  selector.value = data.language;
+
+  selector.addEventListener("change", () => {
+    const selected = selector.value;
+
+    if (!["en", "hi", "hinglish"].includes(selected)) return;
+
+    data.language = selected;
+    saveData();
+    translatePage();
+  });
+}
+
+/* =====================================
+   RENDER ALL
+   ===================================== */
+
+function renderApp() {
   renderHome();
   renderTips();
-  renderRain();
   renderProfile();
+}
 
-  if (
-    "serviceWorker" in navigator &&
-    location.protocol.startsWith("http")
-  ) {
-    navigator.serviceWorker
-      .register("./sw.js")
-      .catch((error) => {
-        console.log("Service Worker error:", error);
+function setupApp() {
+  // Show only Home at first.
+  document.querySelectorAll(".section").forEach((section) => {
+    section.hidden = !section.classList.contains("active");
+  });
+
+  setupNavigation();
+  setupUsageForm();
+  setupGoalForm();
+  setupRainCalculator();
+  setupDailyCalculator();
+  setupSavingCalculator();
+  setupQuiz();
+  setupProfile();
+  setupLanguage();
+
+  renderApp();
+  translatePage();
+
+  // Register offline service worker.
+  if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js").catch((error) => {
+        console.warn("Service worker registration failed:", error);
       });
+    });
   }
 }
 
-document.addEventListener("DOMContentLoaded", init);
+document.addEventListener("DOMContentLoaded", setupApp);
