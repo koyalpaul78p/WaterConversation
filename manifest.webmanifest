@@ -1,11 +1,17 @@
 {
   "name": "WaterConversation",
-  "short_name": "WaterConversation",
-  "description": "Every Drop Matters.",
-  "start_url": "./",
+  "short_name": "Water",
+  "description": "Every Drop Matters. Save Water, Save Life.",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#f4fbf8",
-  "theme_color": "#5b9b86",
   "orientation": "portrait",
-  "lang": "en"
+  "background_color": "#fff0f5",
+  "theme_color": "#e88eae",
+  "lang": "en",
+  "categories": [
+    "education",
+    "lifestyle",
+    "utilities"
+  ]
 }
